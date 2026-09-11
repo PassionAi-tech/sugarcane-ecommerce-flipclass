@@ -1,80 +1,64 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowRight, Check, Leaf, Menu, Minus, Plus, ShoppingBag, Sparkles, X } from 'lucide-react';
+import { ArrowDown, ArrowRight, Check, Droplets, Factory, Leaf, Menu, Sprout, Sun, Truck, X, Zap } from 'lucide-react';
 import './styles.css';
 
-const products = [
-  { id: 1, name: 'Fresh Sugarcane', type: 'Farm Fresh', price: 80, unit: '3 kg', emoji: '🎋', note: 'Crunchy, juicy canes harvested at peak freshness.' },
-  { id: 2, name: 'Pure Cane Juice', type: 'Cold Pressed', price: 60, unit: '500 ml', emoji: '🥤', note: 'Fresh-pressed cane juice with a naturally sweet finish.' },
-  { id: 3, name: 'Golden Jaggery', type: 'Traditional', price: 120, unit: '500 g', emoji: '🟤', note: 'Slow-cooked cane juice transformed into golden jaggery.' },
-  { id: 4, name: 'Cane Sugar', type: 'Pure & Fine', price: 95, unit: '1 kg', emoji: '✨', note: 'Crystalline sugar made from processed sugarcane juice.' },
+const stages = [
+  { no: '01', title: 'Planting the cane', tag: 'FIELD', text: 'Sugarcane begins as a healthy stalk section planted in warm, fertile soil. Farmers choose strong planting material so new shoots can develop.', icon: Sprout, fact: 'Sugarcane is a grass — not a tree.', visual: 'plant' },
+  { no: '02', title: 'Sun + water + growth', tag: 'GROW', text: 'Leaves capture sunlight through photosynthesis. Water and nutrients help the crop build biomass while sugars are stored in the growing stalk.', icon: Sun, fact: 'Photosynthesis turns light energy into chemical energy.', visual: 'grow' },
+  { no: '03', title: 'Harvest time', tag: 'HARVEST', text: 'When the stalks mature, they are cut and collected. Timing matters because mature cane contains more useful sucrose.', icon: Truck, fact: 'The harvested stalks are quickly moved for processing.', visual: 'harvest' },
+  { no: '04', title: 'Crushing the stalks', tag: 'MILL', text: 'At the mill, heavy rollers crush the cane. This separates the sweet juice from the fibrous material called bagasse.', icon: Factory, fact: 'Bagasse can be used as a renewable fuel in sugar mills.', visual: 'mill' },
+  { no: '05', title: 'Cleaning the juice', tag: 'CLARIFY', text: 'The raw juice contains water, dissolved sugars and other plant materials. Processing removes unwanted solids before the juice is concentrated.', icon: Droplets, fact: 'The goal is a cleaner juice stream for the next stage.', visual: 'clean' },
+  { no: '06', title: 'Evaporation + concentration', tag: 'PROCESS', text: 'Water is removed from the clarified juice, concentrating the dissolved sugars into a thicker syrup.', icon: Zap, fact: 'Less water means a higher concentration of dissolved sugar.', visual: 'evaporate' },
+  { no: '07', title: 'From syrup to products', tag: 'TRANSFORM', text: 'The concentrated cane juice can follow different paths: it can become jaggery, crystallized sugar, or stay as a fresh juice product.', icon: Leaf, fact: 'One crop can become several familiar products.', visual: 'products' },
+  { no: '08', title: 'Ready for you', tag: 'FINISH', text: 'After the right finishing and packaging steps, sugarcane-derived products reach homes, shops and restaurants.', icon: Check, fact: 'Field → juice → processed products: the complete journey.', visual: 'finish' },
 ];
 
 function App() {
-  const [cart, setCart] = useState({});
-  const [cartOpen, setCartOpen] = useState(false);
-  const [shopOpen, setShopOpen] = useState(false);
+  const [menu, setMenu] = useState(false);
   const [quiz, setQuiz] = useState(false);
-  const [answer, setAnswer] = useState(null);
+  const [answer, setAnswer] = useState('');
+  const go = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  return <div className="site">
+    <div className="topbar"><span>FLIP CLASS 2026</span><span>THE COMPLETE SUGARCANE JOURNEY</span><span>SCROLL TO EXPLORE ↓</span></div>
+    <nav className="nav">
+      <button className="brand" onClick={() => go('home')}><span className="brand-mark">C</span><span>Cane<span>&</span>Co.</span></button>
+      <div className={`nav-links ${menu ? 'open' : ''}`}><button onClick={() => go('story')}>The process</button><button onClick={() => go('science')}>The science</button><button onClick={() => go('products')}>The products</button></div>
+      <button className="menu-btn" onClick={() => setMenu(!menu)}>{menu ? <X/> : <Menu/>}</button>
+    </nav>
 
-  const count = Object.values(cart).reduce((a, b) => a + b, 0);
-  const total = useMemo(() => products.reduce((sum, p) => sum + p.price * (cart[p.id] || 0), 0), [cart]);
+    <main>
+      <section className="hero" id="home">
+        <div className="hero-copy"><div className="eyebrow"><span className="pulse"/> FROM SOIL TO SWEETNESS</div><h1>The journey<br/>of <em>sugarcane.</em></h1><p>Follow one sugarcane stalk from planting and growth to harvest, milling, processing and the products we use every day.</p><button className="start" onClick={() => go('story')}>Start the journey <ArrowDown size={17}/></button><div className="hero-meta"><span>08 stages</span><i/> <span>1 crop</span><i/> <span>many products</span></div></div>
+        <div className="hero-scene"><div className="sun-orb"/><div className="cloud c1"/><div className="cloud c2"/><div className="hill h1"/><div className="hill h2"/><div className="hero-canes"><b>🎋</b><b>🎋</b><b>🎋</b><b>🎋</b><b>🎋</b></div><div className="seed-card"><Sprout size={18}/><div><small>STARTING POINT</small><strong>One tiny planting set</strong></div></div><div className="scroll-cue">SCROLL <ArrowDown size={14}/></div></div>
+      </section>
 
-  const add = (id) => setCart(c => ({ ...c, [id]: (c[id] || 0) + 1 }));
-  const remove = (id) => setCart(c => ({ ...c, [id]: Math.max((c[id] || 0) - 1, 0) }));
+      <section className="intro" id="story"><div><span className="big-number">01</span><div><div className="kicker">THE BIG PICTURE</div><h2>It starts in a field.<br/><em>It ends on a shelf.</em></h2></div></div><p>What looks like a simple stalk has a surprisingly long journey. The plant grows using sunlight, water and nutrients, then people use mechanical and physical processes to turn its stored sugars into useful products.</p></section>
 
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      <div className="progress-bar"><span>THE PROCESS</span><div><i/><i/><i/><i/><i/><i/><i/><i/></div><span>08 STAGES</span></div>
 
-  return (
-    <div className="site">
-      <div className="announcement"><Sparkles size={14} /> Fresh harvest just arrived · Educational storefront demo <span>Flip Class 2026</span></div>
-      <nav className="nav">
-        <button className="brand" onClick={() => scrollTo('home')}><span className="brand-mark">C</span><span>Cane<span>&</span>Co.</span></button>
-        <div className="nav-links"><button onClick={() => scrollTo('shop')}>Shop</button><button onClick={() => scrollTo('journey')}>Our Journey</button><button onClick={() => scrollTo('learn')}>Learn</button></div>
-        <button className="cart-btn" onClick={() => setCartOpen(true)}><ShoppingBag size={18}/><span>Cart</span>{count > 0 && <b>{count}</b>}</button>
-        <button className="mobile-menu"><Menu size={22}/></button>
-      </nav>
+      {stages.map((s, i) => { const Icon = s.icon; return <section className={`stage stage-${s.visual} ${i % 2 ? 'reverse' : ''}`} key={s.no}>
+        <div className="stage-copy"><div className="stage-number">{s.no}</div><div className="kicker">{s.tag}</div><h2>{s.title}</h2><p>{s.text}</p><div className="fact"><span><Icon size={17}/></span><div><small>QUICK FACT</small><strong>{s.fact}</strong></div></div></div>
+        <div className="stage-visual"><div className="visual-label">STAGE {s.no}<span>{s.tag}</span></div><div className={`scene scene-${s.visual}`}>
+          {s.visual === 'plant' && <><div className="soil"/><div className="seed">●</div><div className="sprout"><i/><i/><i/></div><div className="rainbow-line"/></>}
+          {s.visual === 'grow' && <><div className="big-sun"><Sun/></div><div className="grow-field">{[1,2,3,4,5].map(n => <b key={n}>🎋</b>)}</div><div className="water-drop">💧</div></>}
+          {s.visual === 'harvest' && <><div className="field-lines"/><div className="harvest-cane">🎋🎋🎋</div><div className="harvest-machine">🚜</div><div className="dust"/></>}
+          {s.visual === 'mill' && <><div className="mill-building"><span>CANЕ MILL</span><div className="rollers"><i/><i/></div></div><div className="cane-in">🎋</div><div className="juice-stream"/><div className="bagasse">▰ ▰ ▰</div></>}
+          {s.visual === 'clean' && <><div className="tank"><div className="liquid"/><span>RAW JUICE</span></div><div className="filter">FILTER</div><div className="clean-stream"/></>}
+          {s.visual === 'evaporate' && <><div className="pan"><div className="syrup"/></div><div className="steam"><i/><i/><i/></div><span className="heat">HEAT ↑</span></>}
+          {s.visual === 'products' && <><div className="product-orbit p1">JAGGERY</div><div className="product-orbit p2">SUGAR</div><div className="product-orbit p3">JUICE</div><div className="center-syrup">CANE<br/>JUICE</div></>}
+          {s.visual === 'finish' && <><div className="shelf"><div>🍬</div><div>🧃</div><div>🟫</div></div><div className="finish-cane">🎋</div><div className="spark s1">✦</div><div className="spark s2">✦</div><div className="finish-tag">FIELD → HOME</div></>}
+        </div></div>
+      </section> })}
 
-      <main>
-        <section className="hero" id="home">
-          <div className="hero-copy">
-            <div className="eyebrow"><span className="dot"/> Straight from the cane fields</div>
-            <h1>Sweetness,<br/><em>grown naturally.</em></h1>
-            <p>Discover the journey of sugarcane — from a sunlit field to the products you enjoy every day.</p>
-            <div className="hero-actions"><button className="primary" onClick={() => scrollTo('shop')}>Shop the harvest <ArrowRight size={17}/></button><button className="text-btn" onClick={() => scrollTo('journey')}>Explore the journey</button></div>
-            <div className="trust"><span><Check size={15}/> Farm sourced</span><span><Check size={15}/> Naturally sweet</span><span><Check size={15}/> No additives</span></div>
-          </div>
-          <div className="hero-art">
-            <div className="sun"/><div className="cloud cloud-a"/><div className="cloud cloud-b"/>
-            <div className="field field-back"/><div className="field field-front"/>
-            <div className="cane cane-1">🎋</div><div className="cane cane-2">🎋</div><div className="cane cane-3">🎋</div><div className="cane cane-4">🎋</div>
-            <div className="hero-card"><span>Today's harvest</span><strong>100% fresh cane</strong><small>Harvested this morning</small></div>
-          </div>
-        </section>
+      <section className="science" id="science"><div className="science-head"><div className="kicker">THE SCIENCE BEHIND THE SWEETNESS</div><h2>Three ideas explain<br/><em>the whole journey.</em></h2></div><div className="science-grid"><article><span>01</span><Leaf/><h3>Photosynthesis</h3><p>Leaves use sunlight, water and carbon dioxide to make organic compounds that support plant growth.</p></article><article><span>02</span><Droplets/><h3>Sucrose</h3><p>Sugarcane stores a large amount of its usable sugar as sucrose, especially as the stalk matures.</p></article><article><span>03</span><Factory/><h3>Processing</h3><p>Crushing, clarification, concentration and crystallization are physical processing steps that change the cane juice.</p></article></div></section>
 
-        <section className="strip"><div><Leaf/><strong>Field to shelf</strong><span>We follow every stage.</span></div><div><Sparkles/><strong>Made with care</strong><span>Simple, honest products.</span></div><div><ShoppingBag/><strong>Shop & learn</strong><span>Every product tells a story.</span></div></section>
+      <section className="products-section" id="products"><div className="kicker">WHERE THE JOURNEY LEADS</div><h2>One crop.<br/><em>Different destinations.</em></h2><div className="product-path"><article><div>🥤</div><span>01</span><h3>Fresh cane juice</h3><p>Cane is crushed and the juice is served fresh.</p></article><div className="path-arrow"><ArrowRight/></div><article><div>🟫</div><span>02</span><h3>Jaggery</h3><p>Juice is concentrated into a solid, traditional sweetener.</p></article><div className="path-arrow"><ArrowRight/></div><article><div>✨</div><span>03</span><h3>Cane sugar</h3><p>Further processing can produce sugar crystals.</p></article></div></section>
 
-        <section className="section" id="shop">
-          <div className="section-head"><div><div className="kicker">THE HARVEST</div><h2>Shop something <i>sweet.</i></h2></div><button className="view-all" onClick={() => setShopOpen(!shopOpen)}>{shopOpen ? 'Show featured' : 'View all products'} <ArrowRight size={16}/></button></div>
-          <div className="products">{products.map(p => <article className="product" key={p.id}><div className="product-image"><span className="badge">{p.type}</span><span className="product-emoji">{p.emoji}</span><div className="leaf-deco">✦</div></div><div className="product-info"><h3>{p.name}</h3><p>{p.note}</p><div className="buy-row"><div><strong>₹{p.price}</strong><small> / {p.unit}</small></div><button onClick={() => add(p.id)} aria-label={`Add ${p.name}`}><Plus size={18}/></button></div></div></article>)}</div>
-          <div className="shop-note"><span>🧠</span><div><strong>Buying sugarcane is learning sugarcane.</strong><p>Tap through our journey below to see how one crop becomes many everyday products.</p></div></div>
-        </section>
-
-        <section className="journey" id="journey">
-          <div className="journey-copy"><div className="kicker">THE JOURNEY</div><h2>From green stalk<br/>to <i>golden sweetness.</i></h2><p>Sugarcane doesn't become sugar in one step. Each stage changes its physical form while preserving the useful carbohydrates stored in the plant.</p><button className="outline" onClick={() => scrollTo('learn')}>See what happens <ArrowRight size={16}/></button></div>
-          <div className="timeline"><div className="line"/>{[['01','GROW','Sun + water','Healthy cane develops in warm, sunny conditions.'],['02','HARVEST','Cut the stalk','Mature stalks are harvested and transported for processing.'],['03','EXTRACT','Press the juice','Mills crush the stalks and collect the sweet juice.'],['04','PROCESS','Transform it','The juice can become jaggery, sugar, or refreshing cane juice.']].map(([n,t,title,text]) => <div className="step" key={n}><span className="step-no">{n}</span><div><small>{t}</small><h3>{title}</h3><p>{text}</p></div></div>)}</div>
-        </section>
-
-        <section className="learn" id="learn"><div className="learn-top"><div className="kicker">FLIP CLASS · QUICK LESSON</div><h2>Why is sugarcane <i>so sweet?</i></h2><p>Sugarcane stores energy mainly as <strong>sucrose</strong>. During processing, the juice is separated from the fibrous stalk, then purified and concentrated to create different products.</p></div><div className="facts"><div><span>01</span><strong>Sucrose</strong><p>The main sugar found in mature sugarcane.</p></div><div><span>02</span><strong>Photosynthesis</strong><p>Leaves use sunlight to make sugars that fuel plant growth.</p></div><div><span>03</span><strong>Juice → products</strong><p>Processing turns cane juice into several familiar foods.</p></div></div><button className="quiz-btn" onClick={() => {setQuiz(true);setAnswer(null)}}>Test your knowledge <ArrowRight size={17}/></button></section>
-      </main>
-
-      <footer><div className="footer-brand"><span className="brand-mark">C</span><div><strong>Cane&Co.</strong><small>A Flip Class sugarcane storefront</small></div></div><span>Fresh ideas. Sweet science.</span><span>© 2026 · Educational demo · No real orders</span></footer>
-
-      {cartOpen && <div className="overlay" onClick={() => setCartOpen(false)}><aside className="drawer" onClick={e => e.stopPropagation()}><div className="drawer-head"><h2>Your cart</h2><button onClick={() => setCartOpen(false)}><X/></button></div>{count === 0 ? <div className="empty"><ShoppingBag size={36}/><h3>Your cart is empty</h3><p>Add a product to see the demo cart in action.</p></div> : <>{products.filter(p => cart[p.id]).map(p => <div className="cart-item" key={p.id}><span>{p.emoji}</span><div><strong>{p.name}</strong><small>₹{p.price} · {p.unit}</small></div><div className="qty"><button onClick={() => remove(p.id)}><Minus size={14}/></button><b>{cart[p.id]}</b><button onClick={() => add(p.id)}><Plus size={14}/></button></div></div>)}<div className="cart-total"><span>Demo total</span><strong>₹{total}</strong></div><button className="primary full" onClick={() => {setCart({});setCartOpen(false)}}>Place demo order <Check size={16}/></button><p className="no-pay">No login · No payment · For classroom demonstration only</p></>}</aside></div>}
-
-      {quiz && <div className="overlay" onClick={() => setQuiz(false)}><div className="quiz" onClick={e => e.stopPropagation()}><button className="close" onClick={() => setQuiz(false)}><X/></button><div className="quiz-icon">🌱</div><div className="kicker">ONE QUICK QUESTION</div><h2>What is the main sugar stored in sugarcane?</h2><div className="answers">{['Glucose','Sucrose','Lactose'].map(a => <button className={answer === a ? (a === 'Sucrose' ? 'correct' : 'wrong') : ''} key={a} onClick={() => setAnswer(a)}>{a}{answer === a && (a === 'Sucrose' ? <Check/> : <X/>)}</button>)}</div>{answer && <p className="result">{answer === 'Sucrose' ? 'Correct! Sucrose is the main sugar accumulated in mature sugarcane.' : 'Not quite — the answer is sucrose.'}</p>}</div></div>}
-    </div>
-  );
+      <section className="ending"><div className="kicker">YOU MADE IT</div><h2>From a green stalk<br/>to <em>sweetness.</em></h2><p>Now you know the complete sugarcane journey — and the science happening at every step.</p><button onClick={() => {setQuiz(true);setAnswer('')}}>Take the 30-second quiz <ArrowRight size={17}/></button><div className="end-line"><span>PLANT</span><i/><span>GROW</span><i/><span>HARVEST</span><i/><span>MILL</span><i/><span>PROCESS</span><i/><span>PRODUCT</span></div></section>
+    </main>
+    <footer><div className="brand-foot"><span className="brand-mark">C</span><strong>Cane&Co.</strong></div><span>Flip Class · Sugarcane Process</span><span>Educational website · 2026</span></footer>
+    {quiz && <div className="overlay" onClick={() => setQuiz(false)}><div className="quiz" onClick={e => e.stopPropagation()}><button className="close" onClick={() => setQuiz(false)}><X/></button><div className="quiz-icon">🌱</div><div className="kicker">QUICK CHECK</div><h2>What happens immediately after the stalks are crushed at the mill?</h2><div className="answers">{['The juice is separated from the fibrous material','The cane grows again','The sugar crystals are packaged'].map(a => <button className={answer === a ? (a.startsWith('The juice') ? 'correct' : 'wrong') : ''} key={a} onClick={() => setAnswer(a)}>{a}{answer === a && (a.startsWith('The juice') ? <Check/> : <X/>)}</button>)}</div>{answer && <p className="result">{answer.startsWith('The juice') ? 'Correct — crushing separates sweet juice from fibrous bagasse.' : 'Not quite. Crushing first separates the juice from the fibrous material.'}</p>}</div></div>}
+  </div>;
 }
-
 createRoot(document.getElementById('root')).render(<App />);
