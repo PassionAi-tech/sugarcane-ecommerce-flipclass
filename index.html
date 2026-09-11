@@ -8,94 +8,84 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    :root { --bg-dark: #070907; --text-main: #ffffff; --text-muted: #a3aba6; --accent: #d4af37; }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 100%; min-height: 100%; font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-main); overflow: hidden; }
-    #loader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #070907; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease-out; }
-    .loader-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--accent); margin-bottom: 20px; letter-spacing: 0.1em; text-transform: uppercase; }
-    .progress-bar-container { width: 300px; height: 1px; background: rgba(255,255,255,0.1); position: relative; overflow: hidden; }
-    #progress-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--accent); transition: width 0.1s linear; }
-    #webgl-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; }
-    nav { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 6vw; z-index: 100; background: linear-gradient(to bottom, rgba(7,9,7,0.9), transparent); }
-    .logo { font-family: 'Playfair Display', serif; font-weight: 700; letter-spacing: 0.05em; font-size: 1.4rem; text-transform: uppercase; }
-    .nav-links { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); font-weight: 600; }
-    main { position: relative; z-index: 10; width: 100%; }
-    section { height: 100vh; width: 100%; display: flex; flex-direction: column; justify-content: center; padding: 0 8vw; position: relative; }
-    .align-center { align-items: center; text-align: center; }
-    .align-left { align-items: flex-start; }
-    .align-right { align-items: flex-end; }
-    .text-card { background: rgba(12, 15, 12, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-left: 2px solid var(--accent); padding: 3rem 3.5rem; width: 100%; max-width: 480px; box-shadow: 0 30px 60px rgba(0,0,0,0.6); opacity: 0; transform: translateY(100px); }
-    .align-right .text-card { border-left: none; border-right: 2px solid var(--accent); }
-    .align-center .text-card { border: none; border-top: 2px solid var(--accent); }
-    h1, h2 { font-family: 'Playfair Display', serif; font-weight: 700; line-height: 1.1; margin-bottom: 1.2rem; color: #fff; text-transform: uppercase; }
-    h1 { font-size: clamp(3rem, 6vw, 5.5rem); }
-    h2 { font-size: clamp(2.2rem, 3.5vw, 3.5rem); }
-    .label { color: var(--accent); text-transform: uppercase; font-weight: 600; letter-spacing: 0.2em; font-size: 0.75rem; margin-bottom: 1rem; display: block; }
-    p { font-size: 1.1rem; line-height: 1.6; color: var(--text-muted); font-weight: 300; }
-    @media (max-width: 900px) { .text-card { padding: 2rem; max-width: 100%; background: rgba(12, 15, 12, 0.85); border: none !important; border-top: 2px solid var(--accent) !important; } .align-left, .align-right { align-items: center; text-align: left; } nav { padding: 1.5rem; } }
+    :root { --bg-dark:#050605; --text-main:#fff; --text-muted:#a3aba6; --accent:#d4af37; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;min-height:100%;font-family:Inter,sans-serif;background:var(--bg-dark);color:var(--text-main);overflow-x:hidden}
+    #webgl-container{position:fixed;inset:0;width:100vw;height:100vh;z-index:1;pointer-events:none}
+    #no-webgl{display:none;position:fixed;inset:0;background:var(--bg-dark);z-index:9999;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem}
+    #no-webgl h2{font-family:'Playfair Display',serif;color:var(--accent);margin-bottom:1rem}
+    #loader{position:fixed;inset:0;background:var(--bg-dark);z-index:9998;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity .8s ease-out}
+    .loader-text{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--accent);margin-bottom:20px;letter-spacing:.1em;text-transform:uppercase}
+    .progress-bar-container{width:300px;height:1px;background:rgba(255,255,255,.1);position:relative;overflow:hidden}
+    #progress-bar{position:absolute;top:0;left:0;height:100%;width:0;background:var(--accent);transition:width .1s linear}
+    nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:2.5rem 6vw;z-index:100;background:linear-gradient(to bottom,rgba(5,6,5,.9),transparent)}
+    .logo{font-family:'Playfair Display',serif;font-weight:700;letter-spacing:.05em;font-size:1.4rem;text-transform:uppercase}
+    .nav-links{font-size:.75rem;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);font-weight:600}
+    main{position:relative;z-index:10;width:100%}
+    section{height:100vh;width:100%;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative}
+    .align-center{align-items:center;text-align:center}.align-left{align-items:flex-start}.align-right{align-items:flex-end}
+    .text-card{background:rgba(12,15,12,.6);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border-left:2px solid var(--accent);padding:3rem 3.5rem;width:100%;max-width:480px;box-shadow:0 30px 60px rgba(0,0,0,.8);opacity:0;transform:translateY(60px)}
+    .align-right .text-card{border-left:none;border-right:2px solid var(--accent)}.align-center .text-card{border:none;border-top:2px solid var(--accent)}
+    h1,h2{font-family:'Playfair Display',serif;font-weight:700;line-height:1.1;margin-bottom:1.2rem;color:#fff;text-transform:uppercase}h1{font-size:clamp(3rem,6vw,5.5rem)}h2{font-size:clamp(2.2rem,3.5vw,3.5rem)}
+    .label{color:var(--accent);text-transform:uppercase;font-weight:600;letter-spacing:.2em;font-size:.75rem;margin-bottom:1rem;display:block}
+    p{font-size:1.1rem;line-height:1.6;color:var(--text-muted);font-weight:300}
+    @media(max-width:900px){.text-card{padding:2rem;max-width:100%;background:rgba(12,15,12,.85);border:none!important;border-top:2px solid var(--accent)!important}.align-left,.align-right{align-items:center;text-align:left}nav{padding:1.5rem}}
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
-  <div id="loader"><div class="loader-text">Initializing Journey</div><div class="progress-bar-container"><div id="progress-bar"></div></div></div>
+  <div id="no-webgl"><h2>WebGL Required</h2><p>Your browser or device does not support WebGL, which is required for this 3D experience.</p></div>
+  <div id="loader"><div class="loader-text">Generating Geometry</div><div class="progress-bar-container"><div id="progress-bar"></div></div></div>
   <nav><div class="logo">Saccharum</div><div class="nav-links">The Farming Process</div></nav>
   <div id="webgl-container"></div>
   <main>
-    <section class="align-center section-panel"><div class="text-card" style="background:transparent; box-shadow:none; backdrop-filter:none;"><span class="label">Agriculture</span><h1>THE RAW<br>HARVEST</h1><p style="margin: 0 auto; color: #fff; text-shadow: 0 4px 10px rgba(0,0,0,0.8);">Scroll to explore the real journey from soil to mill.</p></div></section>
+    <section class="align-center section-panel"><div class="text-card" style="background:transparent;box-shadow:none;backdrop-filter:none"><span class="label">Agriculture</span><h1>THE RAW<br>HARVEST</h1><p style="margin:0 auto;color:#fff;text-shadow:0 4px 10px rgba(0,0,0,.8)">Scroll to explore the real journey from soil to mill.</p></div></section>
     <section class="align-right section-panel"><div class="text-card"><span class="label">Step 01 : Planting</span><h2>THE SOIL</h2><p>Sugarcane isn't grown from traditional seeds. Farmers plant living stalks directly into deep, nutrient-rich furrows. This cloning process ensures the highest-yielding crops are passed down to the next generation.</p></div></section>
     <section class="align-left section-panel"><div class="text-card"><span class="label">Step 02 : Cultivation</span><h2>TROPICAL SUN</h2><p>As a perennial grass, sugarcane demands immense equatorial sunlight and heavy rains. It grows aggressively over 14 months, reaching heights of up to 20 feet in dense, impassable green walls.</p></div></section>
     <section class="align-right section-panel"><div class="text-card"><span class="label">Step 03 : The Harvest</span><h2>PEAK YIELD</h2><p>Harvesting is triggered the exact moment sucrose levels peak in the plant's base. Hand-sheared with machetes or cut by heavy machinery, timing the harvest is absolute and unforgiving.</p></div></section>
     <section class="align-left section-panel"><div class="text-card"><span class="label">Step 04 : Transport</span><h2>THE RACE</h2><p>Once severed from the earth, the cane begins losing its sweet content immediately. Convoys of tractors race against the clock to deliver the raw harvest to the extraction mill within 24 hours.</p></div></section>
     <section class="align-right section-panel"><div class="text-card"><span class="label">Step 05 : Extraction</span><h2>THE MILL</h2><p>Inside the factory, heavy serrated steel rollers crush the stalks to extract the raw green juice. The leftover fiber (bagasse) is thrown into massive boilers to generate steam power for the facility.</p></div></section>
-    <section class="align-left section-panel"><div class="text-card"><span class="label">The Result</span><h2>RAW SUGAR</h2><p>The extracted juice is boiled under vacuum, clarified, and spun in powerful centrifuges. It crystallizes into the pure, unrefined raw sugar crystals that fuel the modern world.</p></div></section>
+    <section class="align-left section-panel"><div class="text-card"><span class="label">The Result</span><h2>RAW SUGAR</h2><p>The extracted juice is boiled under vacuum, clarified, and spun in powerful centrifuges. It crystallizes into pure, unrefined raw sugar—visualized here via stylized octahedral geometry as an approximation of its true monoclinic structure.</p></div></section>
   </main>
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const container = document.getElementById('webgl-container');
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-      camera.position.set(0, 0, 10);
-      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      container.appendChild(renderer.domElement);
-      scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-      const dirLight = new THREE.DirectionalLight(0xffebd6, 1.5);
-      dirLight.position.set(5, 5, 5);
-      scene.add(dirLight);
-      let pageUnlocked = false;
-      const progressBar = document.getElementById('progress-bar');
-      const loaderScreen = document.getElementById('loader');
-      function unlockPage() { if(pageUnlocked) return; pageUnlocked = true; loaderScreen.style.opacity = '0'; setTimeout(() => { loaderScreen.style.display = 'none'; document.body.style.overflow = 'auto'; document.documentElement.style.overflow = 'auto'; ScrollTrigger.refresh(); }, 800); }
-      setTimeout(unlockPage, 5000);
-      const manager = new THREE.LoadingManager();
-      manager.onProgress = function (url, itemsLoaded, itemsTotal) { progressBar.style.width = (itemsLoaded / itemsTotal * 100) + '%'; };
-      manager.onLoad = unlockPage;
-      const textureLoader = new THREE.TextureLoader(manager);
-      textureLoader.setCrossOrigin('anonymous');
-      const imageUrls = [
-        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1590274706596-a83cbce0dcfa?w=1000",
-        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1000",
-        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=1000",
-        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1505589146162-8509c158525b?w=1000",
-        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1592982537447-6f2334edee84?w=1000",
-        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1000",
-        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1622484211148-525916053da0?w=1000"
-      ];
-      const planes = [];
-      imageUrls.forEach((url, i) => { textureLoader.load(url, (texture) => { const geometry = new THREE.PlaneGeometry(8, 4.5); const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.6 }); const mesh = new THREE.Mesh(geometry, material); const isMobile = window.innerWidth <= 900; let xOffset = 0; if (i !== 0 && !isMobile) xOffset = (i % 2 !== 0) ? -3.5 : 3.5; mesh.userData.baseY = -15; mesh.position.set(xOffset, mesh.userData.baseY, 0); if (i !== 0 && !isMobile) mesh.rotation.y = (i % 2 !== 0) ? 0.1 : -0.1; scene.add(mesh); planes[i] = mesh; }); });
-      gsap.registerPlugin(ScrollTrigger);
-      const sections = document.querySelectorAll('.section-panel');
-      setTimeout(() => { sections.forEach((sec, i) => { const plane = planes[i]; const textCard = sec.querySelector('.text-card'); if(!plane) return; const tl = gsap.timeline({ scrollTrigger: { trigger: sec, start: "top 80%", end: "bottom 20%", scrub: 1 } }); tl.to(plane.userData, { baseY: 0, duration: 1 }, 0).to(textCard, { opacity: 1, y: 0, duration: 1 }, 0); tl.to(plane.userData, { baseY: 0, duration: 1.5 }, 1).to(textCard, { y: 0, duration: 1.5 }, 1); tl.to(plane.userData, { baseY: 15, duration: 1 }, 2.5).to(textCard, { opacity: 0, y: -100, duration: 1 }, 2.5); }); }, 1000);
-      let mouseX = 0; let mouseY = 0;
-      window.addEventListener('mousemove', (e) => { mouseX = (e.clientX / window.innerWidth) * 2 - 1; mouseY = -(e.clientY / window.innerHeight) * 2 + 1; });
-      const clock = new THREE.Clock();
-      function render() { requestAnimationFrame(render); const t = clock.getElapsedTime(); camera.position.x += (mouseX * 0.4 - camera.position.x) * 0.05; camera.position.y += (mouseY * 0.4 - camera.position.y) * 0.05; planes.forEach((mesh, index) => { if(mesh) mesh.position.y = mesh.userData.baseY + Math.sin(t * 1.5 + index) * 0.15; }); renderer.render(scene, camera); }
-      render();
-      window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
-    });
+    function isWebGLAvailable(){try{const c=document.createElement('canvas');return !!(window.WebGLRenderingContext&&(c.getContext('webgl')||c.getContext('experimental-webgl')))}catch(e){return false}}
+    if(!isWebGLAvailable()){document.getElementById('no-webgl').style.display='flex';document.getElementById('loader').style.display='none'}else{
+      const container=document.getElementById('webgl-container'),scene=new THREE.Scene();
+      scene.fog=new THREE.FogExp2(0x050605,.04);
+      const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.1,200);camera.position.set(0,0,10);
+      const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;container.appendChild(renderer.domElement);
+      scene.add(new THREE.AmbientLight(0xffffff,.4));
+      const dirLight=new THREE.DirectionalLight(0xffebd6,1.5);dirLight.position.set(10,15,10);dirLight.castShadow=true;dirLight.shadow.mapSize.width=1024;dirLight.shadow.mapSize.height=1024;scene.add(dirLight);
+      const rimLight=new THREE.DirectionalLight(0xd4af37,.8);rimLight.position.set(-10,-5,-10);scene.add(rimLight);
+      const followLight=new THREE.PointLight(0xffffff,1.2,30);scene.add(followLight);
+      const matCane=new THREE.MeshPhysicalMaterial({color:0x4a7c2a,roughness:.3,metalness:.1,clearcoat:.6,clearcoatRoughness:.2});
+      const matJoint=new THREE.MeshStandardMaterial({color:0x8b9970,roughness:.8});
+      const matSoil=new THREE.MeshStandardMaterial({color:0x14100c,roughness:1});
+      const matMetal=new THREE.MeshStandardMaterial({color:0x333333,metalness:.8,roughness:.4});
+      const matChrome=new THREE.MeshStandardMaterial({color:0xaaaaaa,metalness:1,roughness:.2});
+      const matCrystal=new THREE.MeshPhysicalMaterial({color:0xffeedd,transmission:.9,opacity:1,metalness:0,roughness:.05,ior:1.5,thickness:2,clearcoat:1});
+      const objects=[];
+      function createStalk(segments=4,radius=.3){const g=new THREE.Group();for(let i=0;i<segments;i++){const c=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius*1.05,1.8,16),matCane);c.position.y=i*1.9;c.castShadow=true;c.receiveShadow=true;if(i<segments-1){const j=new THREE.Mesh(new THREE.TorusGeometry(radius*1.1,.08,12,16),matJoint);j.position.y=i*1.9+.95;j.rotation.x=Math.PI/2;g.add(j)}g.add(c)}g.position.y=-(segments*1.9)/2;return g}
+      const hero=createStalk(5,.4);hero.rotation.z=.2;objects.push(hero);
+      const planting=new THREE.Group(),soil=new THREE.Mesh(new THREE.BoxGeometry(4,.5,3),matSoil),sett=createStalk(2,.2);soil.position.y=-.5;sett.rotation.z=Math.PI/2;planting.add(soil,sett);objects.push(planting);
+      const canopy=new THREE.Group();for(let i=0;i<3;i++){const s=createStalk(4,.2);s.position.set((Math.random()-.5)*1.5,Math.random()-.5,(Math.random()-.5)*1.5);s.rotation.set((Math.random()-.5)*.2,0,(Math.random()-.5)*.2);canopy.add(s)}objects.push(canopy);
+      const harvest=new THREE.Group();for(let i=0;i<7;i++){const s=createStalk(3,.15);s.position.set((Math.random()-.5)*.8,0,(Math.random()-.5)*.8);s.rotation.set((Math.random()-.5)*.1,0,(Math.random()-.5)*.1);harvest.add(s)}const rope=new THREE.Mesh(new THREE.TorusGeometry(.7,.05,12,16),matJoint);rope.rotation.x=Math.PI/2;harvest.add(rope);harvest.rotation.z=.3;objects.push(harvest);
+      const tractor=new THREE.Group(),body=new THREE.Mesh(new THREE.BoxGeometry(2.5,1,1.5),matMetal),cab=new THREE.Mesh(new THREE.BoxGeometry(1,1.2,1.2),matMetal),pipe=new THREE.Mesh(new THREE.CylinderGeometry(.1,.1,1,8),matMetal);body.position.y=.5;cab.position.set(-.5,1.6,0);pipe.position.set(.8,1.5,0);tractor.add(body,cab,pipe);const wheelGeo=new THREE.CylinderGeometry(.6,.6,.4,16);[[1,0,.9],[1,0,-.9],[-1,0,.9],[-1,0,-.9]].forEach(p=>{const w=new THREE.Mesh(wheelGeo,matMetal);w.rotation.x=Math.PI/2;w.position.set(...p);tractor.add(w)});tractor.scale.set(.8,.8,.8);objects.push(tractor);
+      const rollers=new THREE.Group(),rGeo=new THREE.CylinderGeometry(1,1,3,24),r1=new THREE.Mesh(rGeo,matChrome),r2=new THREE.Mesh(rGeo,matChrome);r1.rotation.x=Math.PI/2;r1.position.y=1;r2.rotation.x=Math.PI/2;r2.position.y=-1;for(let i=0;i<12;i++){const tooth=new THREE.Mesh(new THREE.BoxGeometry(.2,3,.2),matChrome);tooth.position.set(Math.cos(i/12*Math.PI*2),0,Math.sin(i/12*Math.PI*2));r1.add(tooth);const tooth2=tooth.clone();r2.add(tooth2)}rollers.add(r1,r2);rollers.scale.set(.7,.7,.7);objects.push(rollers);
+      const crystals=new THREE.Group();for(let i=0;i<15;i++){const c=new THREE.Mesh(new THREE.OctahedronGeometry(Math.random()*.4+.3,0),matCrystal);c.position.set((Math.random()-.5)*3,(Math.random()-.5)*3,(Math.random()-.5)*3);c.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,0);crystals.add(c)}objects.push(crystals);
+      const mobile=innerWidth<=900,zSpacing=25;objects.forEach((obj,i)=>{let x=0;if(i!==0&&!mobile)x=i%2!==0?-3.5:3.5;obj.position.set(x,0,-i*zSpacing);scene.add(obj)});
+      let pageUnlocked=false;const loader=document.getElementById('loader'),bar=document.getElementById('progress-bar');function unlock(){if(pageUnlocked)return;pageUnlocked=true;loader.style.opacity='0';setTimeout(()=>{loader.style.display='none';document.body.style.overflow='auto';document.documentElement.style.overflow='auto';ScrollTrigger.refresh()},800)}
+      let progress=0;const interval=setInterval(()=>{progress+=10;bar.style.width=progress+'%';if(progress>=100){clearInterval(interval);unlock()}},50);
+      gsap.registerPlugin(ScrollTrigger);const totalDepth=(objects.length-1)*zSpacing;
+      gsap.to(camera.position,{z:-totalDepth+10,ease:'none',scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1}});
+      gsap.to(followLight.position,{z:-totalDepth+10,ease:'none',scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1}});
+      document.querySelectorAll('.section-panel').forEach(sec=>{const card=sec.querySelector('.text-card');gsap.to(card,{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:sec,start:'top 60%',end:'top 20%',toggleActions:'play reverse play reverse'}})});
+      let mouseX=0,mouseY=0;addEventListener('mousemove',e=>{mouseX=e.clientX/innerWidth*2-1;mouseY=-(e.clientY/innerHeight)*2+1});const clock=new THREE.Clock();
+      function render(){requestAnimationFrame(render);const t=clock.getElapsedTime();camera.position.x+=(mouseX*.5-camera.position.x)*.05;camera.position.y+=(mouseY*.5-camera.position.y)*.05;if(objects[0]){objects[0].rotation.y=t*.2;objects[0].position.y=Math.sin(t)*.2}if(objects[1])objects[1].rotation.y=t*.1;if(objects[2])objects[2].rotation.y=t*.15;if(objects[3]){objects[3].rotation.y=t*.2;objects[3].rotation.x=Math.sin(t)*.1}if(objects[4])objects[4].position.y=Math.sin(t*2)*.1;if(objects[5]){objects[5].children[0].rotation.y=t*.5;objects[5].children[1].rotation.y=-t*.5;objects[5].rotation.y=t*.2}if(objects[6]){objects[6].rotation.y=t*.1;objects[6].children.forEach((c,i)=>{c.rotation.x+=.01;c.rotation.y+=.01;c.position.y=Math.sin(t+i)*.2})}renderer.render(scene,camera)}render();
+      addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));ScrollTrigger.refresh()});
+    }
   </script>
 </body>
 </html>
