@@ -3,89 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Saccharum — The Real Process</title>
+  <title>Saccharum — The Botanical Drop</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --bg-dark:#050605; --text-main:#fff; --text-muted:#a3aba6; --accent:#d4af37; }
+    :root{--bg-dark:#070907;--text-main:#f5f7f5;--text-muted:#8a948d;--accent:#d4af37;--accent-glow:rgba(212,175,55,.15)}
     *{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:100%;min-height:100%;font-family:Inter,sans-serif;background:var(--bg-dark);color:var(--text-main);overflow-x:hidden}
-    #webgl-container{position:fixed;inset:0;width:100vw;height:100vh;z-index:1;pointer-events:none}
-    #no-webgl{display:none;position:fixed;inset:0;background:var(--bg-dark);z-index:9999;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem}
-    #no-webgl h2{font-family:'Playfair Display',serif;color:var(--accent);margin-bottom:1rem}
-    #loader{position:fixed;inset:0;background:var(--bg-dark);z-index:9998;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity .8s ease-out}
-    .loader-text{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--accent);margin-bottom:20px;letter-spacing:.1em;text-transform:uppercase}
-    .progress-bar-container{width:300px;height:1px;background:rgba(255,255,255,.1);position:relative;overflow:hidden}
-    #progress-bar{position:absolute;top:0;left:0;height:100%;width:0;background:var(--accent);transition:width .1s linear}
-    nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:2.5rem 6vw;z-index:100;background:linear-gradient(to bottom,rgba(5,6,5,.9),transparent)}
-    .logo{font-family:'Playfair Display',serif;font-weight:700;letter-spacing:.05em;font-size:1.4rem;text-transform:uppercase}
-    .nav-links{font-size:.75rem;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);font-weight:600}
-    main{position:relative;z-index:10;width:100%}
-    section{height:100vh;width:100%;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative}
+    html,body{width:100%;min-height:100%;font-family:Inter,sans-serif;background-color:var(--bg-dark);color:var(--text-main);overflow-x:hidden}
+    #webgl-container{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:1;pointer-events:none}
+    nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:2.2rem 6vw;z-index:100;background:linear-gradient(to bottom,rgba(7,9,7,.9),transparent)}
+    .logo{font-family:Syne,sans-serif;font-weight:800;letter-spacing:-.02em;font-size:1.3rem;text-transform:uppercase}.tagline{font-size:.75rem;text-transform:uppercase;letter-spacing:.2em;color:var(--accent);font-weight:600}
+    main{position:relative;z-index:10;width:100%}section{height:100vh;width:100%;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative}
     .align-center{align-items:center;text-align:center}.align-left{align-items:flex-start}.align-right{align-items:flex-end}
-    .text-card{background:rgba(12,15,12,.6);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border-left:2px solid var(--accent);padding:3rem 3.5rem;width:100%;max-width:480px;box-shadow:0 30px 60px rgba(0,0,0,.8);opacity:0;transform:translateY(60px)}
-    .align-right .text-card{border-left:none;border-right:2px solid var(--accent)}.align-center .text-card{border:none;border-top:2px solid var(--accent)}
-    h1,h2{font-family:'Playfair Display',serif;font-weight:700;line-height:1.1;margin-bottom:1.2rem;color:#fff;text-transform:uppercase}h1{font-size:clamp(3rem,6vw,5.5rem)}h2{font-size:clamp(2.2rem,3.5vw,3.5rem)}
-    .label{color:var(--accent);text-transform:uppercase;font-weight:600;letter-spacing:.2em;font-size:.75rem;margin-bottom:1rem;display:block}
-    p{font-size:1.1rem;line-height:1.6;color:var(--text-muted);font-weight:300}
-    @media(max-width:900px){.text-card{padding:2rem;max-width:100%;background:rgba(12,15,12,.85);border:none!important;border-top:2px solid var(--accent)!important}.align-left,.align-right{align-items:center;text-align:left}nav{padding:1.5rem}}
+    .text-card{background:rgba(12,16,13,.65);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-left:2px solid var(--accent);padding:3rem 3.5rem;width:100%;max-width:480px;box-shadow:0 30px 60px rgba(0,0,0,.8),0 0 40px var(--accent-glow);opacity:0;transform:translateY(40px)}
+    .align-right .text-card{border-left:1px solid rgba(255,255,255,.08);border-right:2px solid var(--accent)}.align-center .text-card{border:none;background:transparent;box-shadow:none;backdrop-filter:none}
+    h1,h2{font-family:Syne,sans-serif;font-weight:800;line-height:1.05;letter-spacing:-.03em;margin-bottom:1.2rem;color:#fff}h1{font-size:clamp(3.5rem,7vw,7rem)}h2{font-size:clamp(2.2rem,4vw,4rem)}
+    .label{color:var(--accent);text-transform:uppercase;font-weight:600;letter-spacing:.25em;font-size:.72rem;margin-bottom:1.2rem;display:block}p{font-size:1.05rem;line-height:1.7;color:var(--text-muted);font-weight:300}
+    .scroll-indicator{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.8rem;opacity:.5;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}.scroll-indicator .line{width:1px;height:40px;background:linear-gradient(to bottom,#fff,transparent)}
+    @media(max-width:900px){.text-card{padding:2rem;max-width:100%}.align-left,.align-right{align-items:center;text-align:center}nav{padding:1.5rem}}
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
-  <div id="no-webgl"><h2>WebGL Required</h2><p>Your browser or device does not support WebGL, which is required for this 3D experience.</p></div>
-  <div id="loader"><div class="loader-text">Generating Geometry</div><div class="progress-bar-container"><div id="progress-bar"></div></div></div>
-  <nav><div class="logo">Saccharum</div><div class="nav-links">The Farming Process</div></nav>
+  <nav><div class="logo">Saccharum</div><div class="tagline">Botanical Inspector</div></nav>
   <div id="webgl-container"></div>
   <main>
-    <section class="align-center section-panel"><div class="text-card" style="background:transparent;box-shadow:none;backdrop-filter:none"><span class="label">Agriculture</span><h1>THE RAW<br>HARVEST</h1><p style="margin:0 auto;color:#fff;text-shadow:0 4px 10px rgba(0,0,0,.8)">Scroll to explore the real journey from soil to mill.</p></div></section>
-    <section class="align-right section-panel"><div class="text-card"><span class="label">Step 01 : Planting</span><h2>THE SOIL</h2><p>Sugarcane isn't grown from traditional seeds. Farmers plant living stalks directly into deep, nutrient-rich furrows. This cloning process ensures the highest-yielding crops are passed down to the next generation.</p></div></section>
-    <section class="align-left section-panel"><div class="text-card"><span class="label">Step 02 : Cultivation</span><h2>TROPICAL SUN</h2><p>As a perennial grass, sugarcane demands immense equatorial sunlight and heavy rains. It grows aggressively over 14 months, reaching heights of up to 20 feet in dense, impassable green walls.</p></div></section>
-    <section class="align-right section-panel"><div class="text-card"><span class="label">Step 03 : The Harvest</span><h2>PEAK YIELD</h2><p>Harvesting is triggered the exact moment sucrose levels peak in the plant's base. Hand-sheared with machetes or cut by heavy machinery, timing the harvest is absolute and unforgiving.</p></div></section>
-    <section class="align-left section-panel"><div class="text-card"><span class="label">Step 04 : Transport</span><h2>THE RACE</h2><p>Once severed from the earth, the cane begins losing its sweet content immediately. Convoys of tractors race against the clock to deliver the raw harvest to the extraction mill within 24 hours.</p></div></section>
-    <section class="align-right section-panel"><div class="text-card"><span class="label">Step 05 : Extraction</span><h2>THE MILL</h2><p>Inside the factory, heavy serrated steel rollers crush the stalks to extract the raw green juice. The leftover fiber (bagasse) is thrown into massive boilers to generate steam power for the facility.</p></div></section>
-    <section class="align-left section-panel"><div class="text-card"><span class="label">The Result</span><h2>RAW SUGAR</h2><p>The extracted juice is boiled under vacuum, clarified, and spun in powerful centrifuges. It crystallizes into pure, unrefined raw sugar—visualized here via stylized octahedral geometry as an approximation of its true monoclinic structure.</p></div></section>
+    <section class="align-center section-panel"><div class="text-card"><span class="label">Saccharum Officinarum</span><h1>NATURE'S<br>SYNTHESIS</h1><p style="margin:0 auto;max-width:440px">Scroll to deconstruct the vascular anatomy of concentrated sucrose.</p><div class="scroll-indicator"><span>Inspect</span><div class="line"></div></div></div></section>
+    <section class="align-right section-panel"><div class="text-card"><span class="label">01 — The Growth Ring</span><h2>VASCULAR<br>NODES</h2><p>Thickened structural rings interlock every segment. These nodes anchor auxiliary buds that allow the plant to clone and propagate without seeds.</p></div></section>
+    <section class="align-left section-panel"><div class="text-card"><span class="label">02 — Internode Core</span><h2>PARENCHYMA<br>TISSUE</h2><p>Inside the fibrous rind lies soft spongy tissue that stores concentrated sweet fluid—fueling rapid vertical growth under high tropical humidity.</p></div></section>
+    <section class="align-right section-panel"><div class="text-card"><span class="label">03 — Solar Canopy</span><h2>PHOTOSYNTHESIS<br>ENGINE</h2><p>Long, serrated leaves channel equatorial sunlight directly down the vascular bundles, driving massive enzymatic sugar synthesis.</p></div></section>
+    <section class="align-left section-panel"><div class="text-card"><span class="label">04 — Harvest Shearing</span><h2>TRANS-SECTION<br>CUT</h2><p>Clean base cuts sever the stalk at peak sucrose saturation, preventing enzymatic degradation prior to immediate industrial milling.</p></div></section>
+    <section class="align-right section-panel"><div class="text-card"><span class="label">05 — Pressure Milling</span><h2>BAGASSE<br>EXTRACTION</h2><p>Heavy mechanical compression separates cellular sap from the lignified fibers, repurposing the dry biomass to fuel the factory boilers.</p></div></section>
+    <section class="align-center section-panel"><div class="text-card" style="background:rgba(12,16,13,.7);backdrop-filter:blur(20px);max-width:550px"><span class="label">06 — Nucleation</span><h2>PURE SUCROSE</h2><p>Under precise vacuum evaporation, concentrated liquor precipitates into crystalline geometry—the purest essence of equatorial agriculture.</p></div></section>
   </main>
   <script>
-    function isWebGLAvailable(){try{const c=document.createElement('canvas');return !!(window.WebGLRenderingContext&&(c.getContext('webgl')||c.getContext('experimental-webgl')))}catch(e){return false}}
-    if(!isWebGLAvailable()){document.getElementById('no-webgl').style.display='flex';document.getElementById('loader').style.display='none'}else{
-      const container=document.getElementById('webgl-container'),scene=new THREE.Scene();
-      scene.fog=new THREE.FogExp2(0x050605,.04);
-      const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.1,200);camera.position.set(0,0,10);
-      const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;container.appendChild(renderer.domElement);
-      scene.add(new THREE.AmbientLight(0xffffff,.4));
-      const dirLight=new THREE.DirectionalLight(0xffebd6,1.5);dirLight.position.set(10,15,10);dirLight.castShadow=true;dirLight.shadow.mapSize.width=1024;dirLight.shadow.mapSize.height=1024;scene.add(dirLight);
-      const rimLight=new THREE.DirectionalLight(0xd4af37,.8);rimLight.position.set(-10,-5,-10);scene.add(rimLight);
-      const followLight=new THREE.PointLight(0xffffff,1.2,30);scene.add(followLight);
-      const matCane=new THREE.MeshPhysicalMaterial({color:0x4a7c2a,roughness:.3,metalness:.1,clearcoat:.6,clearcoatRoughness:.2});
-      const matJoint=new THREE.MeshStandardMaterial({color:0x8b9970,roughness:.8});
-      const matSoil=new THREE.MeshStandardMaterial({color:0x14100c,roughness:1});
-      const matMetal=new THREE.MeshStandardMaterial({color:0x333333,metalness:.8,roughness:.4});
-      const matChrome=new THREE.MeshStandardMaterial({color:0xaaaaaa,metalness:1,roughness:.2});
-      const matCrystal=new THREE.MeshPhysicalMaterial({color:0xffeedd,transmission:.9,opacity:1,metalness:0,roughness:.05,ior:1.5,thickness:2,clearcoat:1});
-      const objects=[];
-      function createStalk(segments=4,radius=.3){const g=new THREE.Group();for(let i=0;i<segments;i++){const c=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius*1.05,1.8,16),matCane);c.position.y=i*1.9;c.castShadow=true;c.receiveShadow=true;if(i<segments-1){const j=new THREE.Mesh(new THREE.TorusGeometry(radius*1.1,.08,12,16),matJoint);j.position.y=i*1.9+.95;j.rotation.x=Math.PI/2;g.add(j)}g.add(c)}g.position.y=-(segments*1.9)/2;return g}
-      const hero=createStalk(5,.4);hero.rotation.z=.2;objects.push(hero);
-      const planting=new THREE.Group(),soil=new THREE.Mesh(new THREE.BoxGeometry(4,.5,3),matSoil),sett=createStalk(2,.2);soil.position.y=-.5;sett.rotation.z=Math.PI/2;planting.add(soil,sett);objects.push(planting);
-      const canopy=new THREE.Group();for(let i=0;i<3;i++){const s=createStalk(4,.2);s.position.set((Math.random()-.5)*1.5,Math.random()-.5,(Math.random()-.5)*1.5);s.rotation.set((Math.random()-.5)*.2,0,(Math.random()-.5)*.2);canopy.add(s)}objects.push(canopy);
-      const harvest=new THREE.Group();for(let i=0;i<7;i++){const s=createStalk(3,.15);s.position.set((Math.random()-.5)*.8,0,(Math.random()-.5)*.8);s.rotation.set((Math.random()-.5)*.1,0,(Math.random()-.5)*.1);harvest.add(s)}const rope=new THREE.Mesh(new THREE.TorusGeometry(.7,.05,12,16),matJoint);rope.rotation.x=Math.PI/2;harvest.add(rope);harvest.rotation.z=.3;objects.push(harvest);
-      const tractor=new THREE.Group(),body=new THREE.Mesh(new THREE.BoxGeometry(2.5,1,1.5),matMetal),cab=new THREE.Mesh(new THREE.BoxGeometry(1,1.2,1.2),matMetal),pipe=new THREE.Mesh(new THREE.CylinderGeometry(.1,.1,1,8),matMetal);body.position.y=.5;cab.position.set(-.5,1.6,0);pipe.position.set(.8,1.5,0);tractor.add(body,cab,pipe);const wheelGeo=new THREE.CylinderGeometry(.6,.6,.4,16);[[1,0,.9],[1,0,-.9],[-1,0,.9],[-1,0,-.9]].forEach(p=>{const w=new THREE.Mesh(wheelGeo,matMetal);w.rotation.x=Math.PI/2;w.position.set(...p);tractor.add(w)});tractor.scale.set(.8,.8,.8);objects.push(tractor);
-      const rollers=new THREE.Group(),rGeo=new THREE.CylinderGeometry(1,1,3,24),r1=new THREE.Mesh(rGeo,matChrome),r2=new THREE.Mesh(rGeo,matChrome);r1.rotation.x=Math.PI/2;r1.position.y=1;r2.rotation.x=Math.PI/2;r2.position.y=-1;for(let i=0;i<12;i++){const tooth=new THREE.Mesh(new THREE.BoxGeometry(.2,3,.2),matChrome);tooth.position.set(Math.cos(i/12*Math.PI*2),0,Math.sin(i/12*Math.PI*2));r1.add(tooth);const tooth2=tooth.clone();r2.add(tooth2)}rollers.add(r1,r2);rollers.scale.set(.7,.7,.7);objects.push(rollers);
-      const crystals=new THREE.Group();for(let i=0;i<15;i++){const c=new THREE.Mesh(new THREE.OctahedronGeometry(Math.random()*.4+.3,0),matCrystal);c.position.set((Math.random()-.5)*3,(Math.random()-.5)*3,(Math.random()-.5)*3);c.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,0);crystals.add(c)}objects.push(crystals);
-      const mobile=innerWidth<=900,zSpacing=25;objects.forEach((obj,i)=>{let x=0;if(i!==0&&!mobile)x=i%2!==0?-3.5:3.5;obj.position.set(x,0,-i*zSpacing);scene.add(obj)});
-      let pageUnlocked=false;const loader=document.getElementById('loader'),bar=document.getElementById('progress-bar');function unlock(){if(pageUnlocked)return;pageUnlocked=true;loader.style.opacity='0';setTimeout(()=>{loader.style.display='none';document.body.style.overflow='auto';document.documentElement.style.overflow='auto';ScrollTrigger.refresh()},800)}
-      let progress=0;const interval=setInterval(()=>{progress+=10;bar.style.width=progress+'%';if(progress>=100){clearInterval(interval);unlock()}},50);
-      gsap.registerPlugin(ScrollTrigger);const totalDepth=(objects.length-1)*zSpacing;
-      gsap.to(camera.position,{z:-totalDepth+10,ease:'none',scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1}});
-      gsap.to(followLight.position,{z:-totalDepth+10,ease:'none',scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1}});
-      document.querySelectorAll('.section-panel').forEach(sec=>{const card=sec.querySelector('.text-card');gsap.to(card,{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:sec,start:'top 60%',end:'top 20%',toggleActions:'play reverse play reverse'}})});
+    window.addEventListener('DOMContentLoaded',()=>{
+      const container=document.getElementById('webgl-container');const scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x070907,.035);
+      const camera=new THREE.PerspectiveCamera(40,innerWidth/innerHeight,.1,100);camera.position.set(0,0,11);
+      const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;container.appendChild(renderer.domElement);
+      scene.add(new THREE.AmbientLight(0xffffff,.35));
+      const keyLight=new THREE.SpotLight(0xfff3db,2.5);keyLight.position.set(8,10,8);keyLight.angle=Math.PI/4;keyLight.penumbra=.8;scene.add(keyLight);
+      const rimLight=new THREE.DirectionalLight(0xd4af37,2.2);rimLight.position.set(-8,2,-6);scene.add(rimLight);
+      const fillLight=new THREE.DirectionalLight(0x2f4f2f,1);fillLight.position.set(6,-6,2);scene.add(fillLight);
+      const heroGroup=new THREE.Group();scene.add(heroGroup);
+      const stalkMaterial=new THREE.MeshPhysicalMaterial({color:0x4f7d2d,roughness:.38,metalness:.05,clearcoat:.6,clearcoatRoughness:.25,reflectivity:.8});
+      const nodeMaterial=new THREE.MeshStandardMaterial({color:0x8a7a53,roughness:.85,metalness:0});
+      const coreMaterial=new THREE.MeshStandardMaterial({color:0xd9cca0,roughness:.9,metalness:0});
+      const crystalMaterial=new THREE.MeshPhysicalMaterial({color:0xffffff,transmission:.92,opacity:1,metalness:.05,roughness:.08,ior:1.54,thickness:2.5});
+      const numSegments=6,segLength=2.2,totalHeight=numSegments*segLength;
+      for(let i=0;i<numSegments;i++){const t=i/numSegments,radiusBottom=.42-t*.08,radiusTop=.38-t*.08;const segGeo=new THREE.CylinderGeometry(radiusTop,radiusBottom,segLength,32);const segment=new THREE.Mesh(segGeo,stalkMaterial);segment.position.y=i*segLength-totalHeight/2+segLength/2;heroGroup.add(segment);const ringGeo=new THREE.TorusGeometry(radiusBottom*1.08,.05,16,32);const ring=new THREE.Mesh(ringGeo,nodeMaterial);ring.rotation.x=Math.PI/2;ring.position.y=segment.position.y-segLength/2;heroGroup.add(ring)}
+      const capGeo=new THREE.CircleGeometry(.32,32),topCap=new THREE.Mesh(capGeo,coreMaterial),bottomCap=new THREE.Mesh(capGeo,coreMaterial);topCap.rotation.x=-Math.PI/2;topCap.position.y=totalHeight/2-segLength/2+1.1;heroGroup.add(topCap);bottomCap.rotation.x=Math.PI/2;bottomCap.position.y=-totalHeight/2+segLength/2-1.1;heroGroup.add(bottomCap);
+      const crystalSwarm=new THREE.Group();for(let i=0;i<22;i++){const cGeo=new THREE.OctahedronGeometry(Math.random()*.35+.18,0),crystal=new THREE.Mesh(cGeo,crystalMaterial);crystal.position.set((Math.random()-.5)*4.5,(Math.random()-.5)*5,(Math.random()-.5)*4.5);crystal.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,0);crystalSwarm.add(crystal)}crystalSwarm.scale.set(.001,.001,.001);heroGroup.add(crystalSwarm);
+      const particleCount=200,particleGeo=new THREE.BufferGeometry(),posArray=new Float32Array(particleCount*3);for(let i=0;i<particleCount*3;i+=3){posArray[i]=(Math.random()-.5)*20;posArray[i+1]=(Math.random()-.5)*20;posArray[i+2]=(Math.random()-.5)*15}particleGeo.setAttribute('position',new THREE.BufferAttribute(posArray,3));const particleMat=new THREE.PointsMaterial({size:.04,color:0xd4af37,transparent:true,opacity:.4}),dust=new THREE.Points(particleGeo,particleMat);scene.add(dust);
+      gsap.registerPlugin(ScrollTrigger);const isMobile=innerWidth<=900,shiftX=isMobile?0:3.4;
+      const timeline=gsap.timeline({scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1.2}});
+      heroGroup.position.set(0,-.4,0);heroGroup.rotation.set(.12,0,-.15);
+      timeline.to(heroGroup.position,{x:-shiftX,y:1.2,z:1.5,duration:1},0).to(heroGroup.rotation,{x:.35,y:Math.PI*.7,z:.25,duration:1},0);
+      timeline.to(heroGroup.position,{x:shiftX,y:-.8,z:2.2,duration:1},1).to(heroGroup.rotation,{x:-.2,y:Math.PI*1.5,z:-.18,duration:1},1);
+      timeline.to(heroGroup.position,{x:-shiftX,y:-3.2,z:1.8,duration:1},2).to(heroGroup.rotation,{x:.6,y:Math.PI*2.1,z:.1,duration:1},2);
+      timeline.to(heroGroup.position,{x:shiftX,y:-1.8,z:3.5,duration:1},3).to(heroGroup.rotation,{x:1.2,y:Math.PI*2.8,z:-.4,duration:1},3);
+      timeline.to(heroGroup.position,{x:-shiftX,y:0,z:1.5,duration:1},4).to(heroGroup.rotation,{x:.1,y:Math.PI*3.8,z:1.4,duration:1},4);
+      timeline.to(heroGroup.position,{x:0,y:.2,z:.5,duration:1},5).to(heroGroup.rotation,{x:.2,y:Math.PI*4.8,z:-.1,duration:1},5).to(crystalSwarm.scale,{x:1,y:1,z:1,duration:.6,ease:'back.out(1.5)'},5.2);
+      document.querySelectorAll('.section-panel').forEach(panel=>{const card=panel.querySelector('.text-card');gsap.to(card,{opacity:1,y:0,scrollTrigger:{trigger:panel,start:'top 65%',end:'top 25%',scrub:.8}})});
       let mouseX=0,mouseY=0;addEventListener('mousemove',e=>{mouseX=e.clientX/innerWidth*2-1;mouseY=-(e.clientY/innerHeight)*2+1});const clock=new THREE.Clock();
-      function render(){requestAnimationFrame(render);const t=clock.getElapsedTime();camera.position.x+=(mouseX*.5-camera.position.x)*.05;camera.position.y+=(mouseY*.5-camera.position.y)*.05;if(objects[0]){objects[0].rotation.y=t*.2;objects[0].position.y=Math.sin(t)*.2}if(objects[1])objects[1].rotation.y=t*.1;if(objects[2])objects[2].rotation.y=t*.15;if(objects[3]){objects[3].rotation.y=t*.2;objects[3].rotation.x=Math.sin(t)*.1}if(objects[4])objects[4].position.y=Math.sin(t*2)*.1;if(objects[5]){objects[5].children[0].rotation.y=t*.5;objects[5].children[1].rotation.y=-t*.5;objects[5].rotation.y=t*.2}if(objects[6]){objects[6].rotation.y=t*.1;objects[6].children.forEach((c,i)=>{c.rotation.x+=.01;c.rotation.y+=.01;c.position.y=Math.sin(t+i)*.2})}renderer.render(scene,camera)}render();
-      addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));ScrollTrigger.refresh()});
-    }
+      function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();heroGroup.position.y+=Math.sin(t*1.6)*.0015;camera.position.x+=(mouseX*.45-camera.position.x)*.04;camera.position.y+=(mouseY*.35-camera.position.y)*.04;crystalSwarm.children.forEach((crystal,idx)=>{crystal.rotation.x+=.008;crystal.rotation.y+=.006;crystal.position.y+=Math.sin(t*2+idx)*.0015});dust.rotation.y=t*.02;renderer.render(scene,camera)}animate();
+      addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+    });
   </script>
 </body>
 </html>
