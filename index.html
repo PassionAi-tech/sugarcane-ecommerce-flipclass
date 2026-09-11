@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saccharum — The Real Process</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg-dark: #070907; --text-main: #ffffff; --text-muted: #a3aba6; --accent: #d4af37; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; min-height: 100%; font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-main); overflow: hidden; }
+    #loader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #070907; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease-out; }
+    .loader-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--accent); margin-bottom: 20px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .progress-bar-container { width: 300px; height: 1px; background: rgba(255,255,255,0.1); position: relative; overflow: hidden; }
+    #progress-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--accent); transition: width 0.1s linear; }
+    #webgl-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; }
+    nav { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 6vw; z-index: 100; background: linear-gradient(to bottom, rgba(7,9,7,0.9), transparent); }
+    .logo { font-family: 'Playfair Display', serif; font-weight: 700; letter-spacing: 0.05em; font-size: 1.4rem; text-transform: uppercase; }
+    .nav-links { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); font-weight: 600; }
+    main { position: relative; z-index: 10; width: 100%; }
+    section { height: 100vh; width: 100%; display: flex; flex-direction: column; justify-content: center; padding: 0 8vw; position: relative; }
+    .align-center { align-items: center; text-align: center; }
+    .align-left { align-items: flex-start; }
+    .align-right { align-items: flex-end; }
+    .text-card { background: rgba(12, 15, 12, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-left: 2px solid var(--accent); padding: 3rem 3.5rem; width: 100%; max-width: 480px; box-shadow: 0 30px 60px rgba(0,0,0,0.6); opacity: 0; transform: translateY(100px); }
+    .align-right .text-card { border-left: none; border-right: 2px solid var(--accent); }
+    .align-center .text-card { border: none; border-top: 2px solid var(--accent); }
+    h1, h2 { font-family: 'Playfair Display', serif; font-weight: 700; line-height: 1.1; margin-bottom: 1.2rem; color: #fff; text-transform: uppercase; }
+    h1 { font-size: clamp(3rem, 6vw, 5.5rem); }
+    h2 { font-size: clamp(2.2rem, 3.5vw, 3.5rem); }
+    .label { color: var(--accent); text-transform: uppercase; font-weight: 600; letter-spacing: 0.2em; font-size: 0.75rem; margin-bottom: 1rem; display: block; }
+    p { font-size: 1.1rem; line-height: 1.6; color: var(--text-muted); font-weight: 300; }
+    @media (max-width: 900px) { .text-card { padding: 2rem; max-width: 100%; background: rgba(12, 15, 12, 0.85); border: none !important; border-top: 2px solid var(--accent) !important; } .align-left, .align-right { align-items: center; text-align: left; } nav { padding: 1.5rem; } }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+  <div id="loader"><div class="loader-text">Initializing Journey</div><div class="progress-bar-container"><div id="progress-bar"></div></div></div>
+  <nav><div class="logo">Saccharum</div><div class="nav-links">The Farming Process</div></nav>
+  <div id="webgl-container"></div>
+  <main>
+    <section class="align-center section-panel"><div class="text-card" style="background:transparent; box-shadow:none; backdrop-filter:none;"><span class="label">Agriculture</span><h1>THE RAW<br>HARVEST</h1><p style="margin: 0 auto; color: #fff; text-shadow: 0 4px 10px rgba(0,0,0,0.8);">Scroll to explore the real journey from soil to mill.</p></div></section>
+    <section class="align-right section-panel"><div class="text-card"><span class="label">Step 01 : Planting</span><h2>THE SOIL</h2><p>Sugarcane isn't grown from traditional seeds. Farmers plant living stalks directly into deep, nutrient-rich furrows. This cloning process ensures the highest-yielding crops are passed down to the next generation.</p></div></section>
+    <section class="align-left section-panel"><div class="text-card"><span class="label">Step 02 : Cultivation</span><h2>TROPICAL SUN</h2><p>As a perennial grass, sugarcane demands immense equatorial sunlight and heavy rains. It grows aggressively over 14 months, reaching heights of up to 20 feet in dense, impassable green walls.</p></div></section>
+    <section class="align-right section-panel"><div class="text-card"><span class="label">Step 03 : The Harvest</span><h2>PEAK YIELD</h2><p>Harvesting is triggered the exact moment sucrose levels peak in the plant's base. Hand-sheared with machetes or cut by heavy machinery, timing the harvest is absolute and unforgiving.</p></div></section>
+    <section class="align-left section-panel"><div class="text-card"><span class="label">Step 04 : Transport</span><h2>THE RACE</h2><p>Once severed from the earth, the cane begins losing its sweet content immediately. Convoys of tractors race against the clock to deliver the raw harvest to the extraction mill within 24 hours.</p></div></section>
+    <section class="align-right section-panel"><div class="text-card"><span class="label">Step 05 : Extraction</span><h2>THE MILL</h2><p>Inside the factory, heavy serrated steel rollers crush the stalks to extract the raw green juice. The leftover fiber (bagasse) is thrown into massive boilers to generate steam power for the facility.</p></div></section>
+    <section class="align-left section-panel"><div class="text-card"><span class="label">The Result</span><h2>RAW SUGAR</h2><p>The extracted juice is boiled under vacuum, clarified, and spun in powerful centrifuges. It crystallizes into the pure, unrefined raw sugar crystals that fuel the modern world.</p></div></section>
+  </main>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('webgl-container');
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.set(0, 0, 10);
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
+      scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+      const dirLight = new THREE.DirectionalLight(0xffebd6, 1.5);
+      dirLight.position.set(5, 5, 5);
+      scene.add(dirLight);
+      let pageUnlocked = false;
+      const progressBar = document.getElementById('progress-bar');
+      const loaderScreen = document.getElementById('loader');
+      function unlockPage() { if(pageUnlocked) return; pageUnlocked = true; loaderScreen.style.opacity = '0'; setTimeout(() => { loaderScreen.style.display = 'none'; document.body.style.overflow = 'auto'; document.documentElement.style.overflow = 'auto'; ScrollTrigger.refresh(); }, 800); }
+      setTimeout(unlockPage, 5000);
+      const manager = new THREE.LoadingManager();
+      manager.onProgress = function (url, itemsLoaded, itemsTotal) { progressBar.style.width = (itemsLoaded / itemsTotal * 100) + '%'; };
+      manager.onLoad = unlockPage;
+      const textureLoader = new THREE.TextureLoader(manager);
+      textureLoader.setCrossOrigin('anonymous');
+      const imageUrls = [
+        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1590274706596-a83cbce0dcfa?w=1000",
+        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1000",
+        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=1000",
+        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1505589146162-8509c158525b?w=1000",
+        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1592982537447-6f2334edee84?w=1000",
+        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1000",
+        "https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1622484211148-525916053da0?w=1000"
+      ];
+      const planes = [];
+      imageUrls.forEach((url, i) => { textureLoader.load(url, (texture) => { const geometry = new THREE.PlaneGeometry(8, 4.5); const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.6 }); const mesh = new THREE.Mesh(geometry, material); const isMobile = window.innerWidth <= 900; let xOffset = 0; if (i !== 0 && !isMobile) xOffset = (i % 2 !== 0) ? -3.5 : 3.5; mesh.userData.baseY = -15; mesh.position.set(xOffset, mesh.userData.baseY, 0); if (i !== 0 && !isMobile) mesh.rotation.y = (i % 2 !== 0) ? 0.1 : -0.1; scene.add(mesh); planes[i] = mesh; }); });
+      gsap.registerPlugin(ScrollTrigger);
+      const sections = document.querySelectorAll('.section-panel');
+      setTimeout(() => { sections.forEach((sec, i) => { const plane = planes[i]; const textCard = sec.querySelector('.text-card'); if(!plane) return; const tl = gsap.timeline({ scrollTrigger: { trigger: sec, start: "top 80%", end: "bottom 20%", scrub: 1 } }); tl.to(plane.userData, { baseY: 0, duration: 1 }, 0).to(textCard, { opacity: 1, y: 0, duration: 1 }, 0); tl.to(plane.userData, { baseY: 0, duration: 1.5 }, 1).to(textCard, { y: 0, duration: 1.5 }, 1); tl.to(plane.userData, { baseY: 15, duration: 1 }, 2.5).to(textCard, { opacity: 0, y: -100, duration: 1 }, 2.5); }); }, 1000);
+      let mouseX = 0; let mouseY = 0;
+      window.addEventListener('mousemove', (e) => { mouseX = (e.clientX / window.innerWidth) * 2 - 1; mouseY = -(e.clientY / window.innerHeight) * 2 + 1; });
+      const clock = new THREE.Clock();
+      function render() { requestAnimationFrame(render); const t = clock.getElapsedTime(); camera.position.x += (mouseX * 0.4 - camera.position.x) * 0.05; camera.position.y += (mouseY * 0.4 - camera.position.y) * 0.05; planes.forEach((mesh, index) => { if(mesh) mesh.position.y = mesh.userData.baseY + Math.sin(t * 1.5 + index) * 0.15; }); renderer.render(scene, camera); }
+      render();
+      window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
+    });
+  </script>
+</body>
+</html>
