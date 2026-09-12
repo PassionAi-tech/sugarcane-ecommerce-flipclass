@@ -3,263 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Saccharum — Premium Botanical</title>
+  <title>Saccharum — Botanical Alchemy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg-dark: #030403;
-      --text-main: #f5f7f5;
-      --text-muted: #8a948d;
-      --accent: #d4af37;
-      --accent-glow: rgba(212, 175, 55, 0.15);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 100%; min-height: 100%; font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
-    body::before { content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
-    #webgl-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; }
-    nav { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 2rem 6vw; z-index: 100; background: linear-gradient(to bottom, rgba(3,4,3,0.9), transparent); }
-    .logo { font-family: 'Syne', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: 1.3rem; text-transform: uppercase; }
-    .tagline { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.25em; color: var(--accent); font-weight: 600; }
-    main { position: relative; z-index: 10; width: 100%; }
-    section { height: 100vh; width: 100%; display: flex; flex-direction: column; justify-content: center; padding: 0 8vw; position: relative; }
-    .align-center { align-items: center; text-align: center; }
-    .align-left { align-items: flex-start; }
-    .align-right { align-items: flex-end; }
-    .text-card { background: rgba(15, 20, 15, 0.75); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.05); border-top: 1px solid rgba(255, 255, 255, 0.15); border-left: 2px solid var(--accent); padding: 3.5rem; width: 100%; max-width: 500px; box-shadow: 0 40px 80px rgba(0,0,0,0.9), 0 0 40px var(--accent-glow); opacity: 0; transform: translateY(50px); }
-    .align-right .text-card { border-left: 1px solid rgba(255, 255, 255, 0.05); border-right: 2px solid var(--accent); }
-    .align-center .text-card { background: transparent; border: none; box-shadow: none; backdrop-filter: none; }
-    h1, h2 { font-family: 'Syne', sans-serif; font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.2rem; color: #fff; }
-    h1 { font-size: clamp(3.5rem, 7vw, 7rem); }
-    h2 { font-size: clamp(2.2rem, 4vw, 4rem); }
-    .label { color: var(--accent); text-transform: uppercase; font-weight: 600; letter-spacing: 0.25em; font-size: 0.72rem; margin-bottom: 1.2rem; display: block; }
-    p { font-size: 1.05rem; line-height: 1.7; color: var(--text-muted); font-weight: 300; }
-    @media (max-width: 900px) { .text-card { padding: 2rem; max-width: 100%; } .align-left, .align-right { align-items: center; text-align: center; } nav { padding: 1.5rem; } }
+    :root { --bg-dark:#020302; --text-main:#fff; --text-muted:#8e9992; --accent:#e0c367; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-main);overflow-x:hidden;scroll-behavior:smooth}
+    body::before{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+    #webgl-container{position:fixed;inset:0;width:100vw;height:100vh;z-index:1;pointer-events:none}
+    nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:2.5rem 6vw;z-index:100;background:linear-gradient(to bottom,rgba(2,3,2,.9),transparent)}
+    .logo{font-family:'Playfair Display',serif;font-weight:800;font-size:1.4rem;letter-spacing:.05em;text-transform:uppercase}.tagline{font-size:.65rem;text-transform:uppercase;letter-spacing:.3em;color:var(--accent);font-weight:500}
+    main{position:relative;z-index:10;width:100%}.scroll-section{height:150vh;width:100%;position:relative}.sticky-content{position:sticky;top:0;height:100vh;width:100%;display:flex;align-items:center;padding:0 8vw}.align-center{justify-content:center;text-align:center}.align-left{justify-content:flex-start}.align-right{justify-content:flex-end;text-align:right}
+    .text-card{width:100%;max-width:460px;padding:2rem 0;opacity:0}.align-left .text-card{border-left:1px solid rgba(255,255,255,.1);padding-left:3rem}.align-right .text-card{border-right:1px solid rgba(255,255,255,.1);padding-right:3rem}
+    h1,h2{font-family:'Playfair Display',serif;font-weight:800;line-height:1.05;margin-bottom:1.5rem;color:#fff}h1{font-size:clamp(3.5rem,6vw,6rem)}h2{font-size:clamp(2.5rem,4vw,3.5rem)}
+    .gradient-text{background:linear-gradient(180deg,#fff 0%,#999 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.label{color:var(--accent);text-transform:uppercase;font-weight:500;letter-spacing:.3em;font-size:.7rem;margin-bottom:1rem;display:block}p{font-size:1.1rem;line-height:1.7;color:var(--text-muted);font-weight:300}
+    @media(max-width:900px){.sticky-content{justify-content:center!important;text-align:center!important;padding:0 2rem}.align-left .text-card,.align-right .text-card{border:none;padding:0;border-top:1px solid rgba(255,255,255,.1);padding-top:2rem}nav{padding:1.5rem}}
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
-  <nav>
-    <div class="logo">Saccharum</div>
-    <div class="tagline">Botanical Inspector</div>
-  </nav>
+  <nav><div class="logo">Saccharum</div><div class="tagline">Botanical Alchemy</div></nav>
   <div id="webgl-container"></div>
   <main>
-    <section class="align-center section-panel">
-      <div class="text-card">
-        <span class="label">Saccharum Officinarum</span>
-        <h1>NATURE'S<br>SYNTHESIS</h1>
-        <p style="margin: 0 auto; max-width: 440px;">Scroll to deconstruct the vascular anatomy of concentrated sucrose.</p>
-      </div>
-    </section>
-    <section class="align-right section-panel">
-      <div class="text-card">
-        <span class="label">01 — The Growth Ring</span>
-        <h2>VASCULAR<br>NODES</h2>
-        <p>Thickened structural rings interlock every segment. These nodes anchor auxiliary buds that allow the plant to clone and propagate without seeds.</p>
-      </div>
-    </section>
-    <section class="align-left section-panel">
-      <div class="text-card">
-        <span class="label">02 — Internode Core</span>
-        <h2>PARENCHYMA<br>TISSUE</h2>
-        <p>Inside the fibrous rind lies soft spongy tissue that stores concentrated sweet fluid—fueling rapid vertical growth under high tropical humidity.</p>
-      </div>
-    </section>
-    <section class="align-right section-panel">
-      <div class="text-card">
-        <span class="label">03 — Solar Canopy</span>
-        <h2>PHOTOSYNTHESIS<br>ENGINE</h2>
-        <p>Long, serrated leaves channel equatorial sunlight directly down the vascular bundles, driving massive enzymatic sugar synthesis.</p>
-      </div>
-    </section>
-    <section class="align-left section-panel">
-      <div class="text-card">
-        <span class="label">04 — Harvest Shearing</span>
-        <h2>TRANS-SECTION<br>CUT</h2>
-        <p>Clean base cuts sever the stalk at peak sucrose saturation, preventing enzymatic degradation prior to immediate industrial milling.</p>
-      </div>
-    </section>
-    <section class="align-right section-panel">
-      <div class="text-card">
-        <span class="label">05 — Pressure Milling</span>
-        <h2>BAGASSE<br>EXTRACTION</h2>
-        <p>Heavy mechanical compression separates cellular sap from the lignified fibers, repurposing the dry biomass to fuel the factory boilers.</p>
-      </div>
-    </section>
-    <section class="align-left section-panel">
-      <div class="text-card" style="background: rgba(15, 20, 15, 0.85); border: none; border-left: 2px solid var(--accent); border-top: 1px solid rgba(255,255,255,0.15);">
-        <span class="label">06 — Nucleation</span>
-        <h2>PURE SUCROSE</h2>
-        <p>Under precise vacuum evaporation, concentrated liquor precipitates into crystalline geometry—the purest essence of equatorial agriculture.</p>
-      </div>
-    </section>
+    <div class="scroll-section"><div class="sticky-content align-center"><div class="text-card"><span class="label">The Journey</span><h1 class="gradient-text">RAW<br>ESSENCE</h1><p style="margin:0 auto;max-width:400px">Scroll to witness the transformation from raw earth to pure, light-refracting crystal.</p></div></div></div>
+    <div class="scroll-section"><div class="sticky-content align-right"><div class="text-card"><span class="label">01 — Propagation</span><h2 class="gradient-text">LIVING SEED</h2><p>Cultivated not from a seed, but from life itself. We embed mature, nutrient-dense stalks directly into the soil—cloning the ultimate genetic yield for the next generation.</p></div></div></div>
+    <div class="scroll-section"><div class="sticky-content align-left"><div class="text-card"><span class="label">02 — Photosynthesis</span><h2 class="gradient-text">SOLAR ENGINE</h2><p>Fourteen months of equatorial fire. The sweeping tropical canopy acts as a massive solar engine, driving enzymatic sugar synthesis deep within the vascular core of the plant.</p></div></div></div>
+    <div class="scroll-section"><div class="sticky-content align-right"><div class="text-card"><span class="label">03 — The Cut</span><h2 class="gradient-text">PRECISE HARVEST</h2><p>Precision at peak saturation. Harvesting is an unforgiving science, executed with sharp steel at the exact moment sucrose levels reach their absolute zenith in the stalk.</p></div></div></div>
+    <div class="scroll-section"><div class="sticky-content align-left"><div class="text-card"><span class="label">04 — The Window</span><h2 class="gradient-text">RACE AGAINST TIME</h2><p>The moment the stalk is severed, chemical degradation begins. The raw harvest is rushed to the industrial extraction facility within a critical, non-negotiable 24-hour window.</p></div></div></div>
+    <div class="scroll-section"><div class="sticky-content align-right"><div class="text-card"><span class="label">05 — Extraction</span><h2 class="gradient-text">PURE PRESSURE</h2><p>Relentless mechanical force. Massive serrated steel rollers crush the fibrous rind, liberating the raw, golden liquid sap from the internal cellular tissue.</p></div></div></div>
+    <div class="scroll-section"><div class="sticky-content align-left"><div class="text-card"><span class="label">06 — Nucleation</span><h2 class="gradient-text">CRYSTALLIZATION</h2><p>The pure essence. Through intense thermal evaporation and vacuum nucleation, the liquid gold precipitates into perfect, glowing octahedral geometry.</p></div></div></div>
   </main>
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const container = document.getElementById('webgl-container');
-      const scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0x030403, 0.035);
-      const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
-      camera.position.set(0, 0, 14);
-      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.3;
-      container.appendChild(renderer.domElement);
-
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-      scene.add(ambientLight);
-      const keyLight = new THREE.SpotLight(0xfff3db, 3.5);
-      keyLight.position.set(8, 12, 8);
-      keyLight.angle = Math.PI / 5;
-      keyLight.penumbra = 0.5;
-      scene.add(keyLight);
-      const rimLight = new THREE.DirectionalLight(0xd4af37, 3.5);
-      rimLight.position.set(-8, -2, -6);
-      scene.add(rimLight);
-      const fillLight = new THREE.DirectionalLight(0x4a7c2a, 1.5);
-      fillLight.position.set(6, -6, 2);
-      scene.add(fillLight);
-
-      function createNoiseTexture() {
-        const canvas = document.createElement('canvas');
-        canvas.width = 512; canvas.height = 512;
-        const ctx = canvas.getContext('2d');
-        for (let x = 0; x < 512; x++) {
-          for (let y = 0; y < 512; y++) {
-            const val = Math.floor(Math.random() * 255);
-            ctx.fillStyle = `rgb(${val},${val},${val})`;
-            ctx.fillRect(x, y, 2, 10);
-          }
-        }
-        const tex = new THREE.CanvasTexture(canvas);
-        tex.wrapS = THREE.RepeatWrapping;
-        tex.wrapT = THREE.RepeatWrapping;
-        tex.repeat.set(2, 4);
-        return tex;
-      }
-      const organicBumpMap = createNoiseTexture();
-
-      const stalkMaterial = new THREE.MeshPhysicalMaterial({ color: 0x477028, roughness: 0.4, metalness: 0.05, clearcoat: 0.8, clearcoatRoughness: 0.2, bumpMap: organicBumpMap, bumpScale: 0.002 });
-      const nodeMaterial = new THREE.MeshStandardMaterial({ color: 0x9c8b65, roughness: 0.9, bumpMap: organicBumpMap, bumpScale: 0.005 });
-      const coreMaterial = new THREE.MeshStandardMaterial({ color: 0xe3d9bc, roughness: 1.0 });
-      const crystalMaterial = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 1.0, opacity: 1, metalness: 0.1, roughness: 0.05, ior: 1.6, thickness: 3.0, clearcoat: 1.0 });
-
-      const heroGroup = new THREE.Group();
-      scene.add(heroGroup);
-      const numSegments = 6;
-      const segLength = 2.4;
-      const totalHeight = numSegments * segLength;
-      const vertex = new THREE.Vector3();
-
-      for (let i = 0; i < numSegments; i++) {
-        const t = i / numSegments;
-        const radiusBottom = 0.45 - t * 0.1;
-        const radiusTop = 0.4 - t * 0.1;
-        const segGeo = new THREE.CylinderGeometry(radiusTop, radiusBottom, segLength, 64, 16);
-        const posAttribute = segGeo.attributes.position;
-        for (let v = 0; v < posAttribute.count; v++) {
-          vertex.fromBufferAttribute(posAttribute, v);
-          const noise = Math.sin(vertex.y * 5) * 0.015 + Math.cos(vertex.x * 8) * 0.01;
-          vertex.x += vertex.x * noise;
-          vertex.z += vertex.z * noise;
-          posAttribute.setXYZ(v, vertex.x, vertex.y, vertex.z);
-        }
-        segGeo.computeVertexNormals();
-        const segment = new THREE.Mesh(segGeo, stalkMaterial);
-        segment.position.y = (i * segLength) - (totalHeight / 2) + (segLength / 2);
-        heroGroup.add(segment);
-
-        const ringGeo = new THREE.TorusGeometry(radiusBottom * 1.05, 0.06, 32, 64);
-        const ringPos = ringGeo.attributes.position;
-        for (let v = 0; v < ringPos.count; v++) {
-          vertex.fromBufferAttribute(ringPos, v);
-          const noise = Math.sin(vertex.x * 10) * 0.01;
-          vertex.z += noise;
-          ringPos.setXYZ(v, vertex.x, vertex.y, vertex.z);
-        }
-        ringGeo.computeVertexNormals();
-        const ring = new THREE.Mesh(ringGeo, nodeMaterial);
-        ring.rotation.x = Math.PI / 2;
-        ring.position.y = segment.position.y - (segLength / 2);
-        heroGroup.add(ring);
-      }
-
-      const capGeo = new THREE.CircleGeometry(0.35, 64);
-      const topCap = new THREE.Mesh(capGeo, coreMaterial);
-      topCap.rotation.x = -Math.PI / 2;
-      topCap.position.y = totalHeight / 2 - (segLength / 2) + 1.2;
-      heroGroup.add(topCap);
-
-      const crystalSwarm = new THREE.Group();
-      for (let i = 0; i < 25; i++) {
-        const cGeo = new THREE.OctahedronGeometry(Math.random() * 0.4 + 0.2, 0);
-        const crystal = new THREE.Mesh(cGeo, crystalMaterial);
-        crystal.position.set((Math.random() - 0.5) * 5, (Math.random() - 0.5) * 6, (Math.random() - 0.5) * 5);
-        crystal.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
-        crystalSwarm.add(crystal);
-      }
-      crystalSwarm.scale.set(0.001, 0.001, 0.001);
-      heroGroup.add(crystalSwarm);
-
-      gsap.registerPlugin(ScrollTrigger);
-      const isMobile = window.innerWidth <= 900;
-      const shiftX = isMobile ? 0 : 4.8;
-      const timeline = gsap.timeline({ scrollTrigger: { trigger: "main", start: "top top", end: "bottom bottom", scrub: 1.5 } });
-
-      heroGroup.position.set(2, -1, 0);
-      heroGroup.rotation.set(0.1, 0, -0.2);
-
-      timeline.to(heroGroup.position, { x: -shiftX, y: 1.5, z: 2, duration: 1, ease: "sine.inOut" }, 0)
-              .to(heroGroup.rotation, { x: 0.4, y: Math.PI * 0.8, z: 0.3, duration: 1, ease: "sine.inOut" }, 0);
-      timeline.to(heroGroup.position, { x: shiftX, y: -0.5, z: 3, duration: 1, ease: "sine.inOut" }, 1)
-              .to(heroGroup.rotation, { x: -0.2, y: Math.PI * 1.6, z: -0.2, duration: 1, ease: "sine.inOut" }, 1);
-      timeline.to(heroGroup.position, { x: -shiftX, y: -3.5, z: 2, duration: 1, ease: "sine.inOut" }, 2)
-              .to(heroGroup.rotation, { x: 0.5, y: Math.PI * 2.2, z: 0.1, duration: 1, ease: "sine.inOut" }, 2);
-      timeline.to(heroGroup.position, { x: shiftX, y: -2, z: 4, duration: 1, ease: "sine.inOut" }, 3)
-              .to(heroGroup.rotation, { x: 1.3, y: Math.PI * 2.9, z: -0.5, duration: 1, ease: "sine.inOut" }, 3);
-      timeline.to(heroGroup.position, { x: -shiftX, y: 0, z: 2, duration: 1, ease: "sine.inOut" }, 4)
-              .to(heroGroup.rotation, { x: 0.1, y: Math.PI * 3.8, z: 1.5, duration: 1, ease: "sine.inOut" }, 4);
-      timeline.to(heroGroup.position, { x: shiftX, y: 0.5, z: 1, duration: 1, ease: "sine.inOut" }, 5)
-              .to(heroGroup.rotation, { x: 0.2, y: Math.PI * 4.9, z: -0.1, duration: 1, ease: "sine.inOut" }, 5)
-              .to(crystalSwarm.scale, { x: 1, y: 1, z: 1, duration: 0.8, ease: "back.out(1.2)" }, 5.2);
-
-      document.querySelectorAll('.section-panel').forEach((panel) => {
-        const card = panel.querySelector('.text-card');
-        gsap.fromTo(card, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", scrollTrigger: { trigger: panel, start: "top 60%", end: "bottom 40%", toggleActions: "play reverse play reverse" } });
-      });
-
-      let mouseX = 0, mouseY = 0;
-      window.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-      });
-      const clock = new THREE.Clock();
-      function animate() {
-        requestAnimationFrame(animate);
-        const t = clock.getElapsedTime();
-        heroGroup.position.y += Math.sin(t * 1.5) * 0.002;
-        heroGroup.rotation.y += Math.cos(t * 1) * 0.0005;
-        camera.position.x += (mouseX * 0.6 - camera.position.x) * 0.05;
-        camera.position.y += (mouseY * 0.4 - camera.position.y) * 0.05;
-        crystalSwarm.children.forEach((crystal, idx) => {
-          crystal.rotation.x += 0.005;
-          crystal.rotation.y += 0.004;
-          crystal.position.y += Math.sin(t * 2 + idx) * 0.002;
-        });
-        renderer.render(scene, camera);
-      }
-      animate();
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
+    window.addEventListener('DOMContentLoaded',()=>{
+      const container=document.getElementById('webgl-container');
+      const scene=new THREE.Scene(); scene.fog=new THREE.FogExp2(0x020302,.035);
+      const camera=new THREE.PerspectiveCamera(35,innerWidth/innerHeight,.1,100); camera.position.set(0,0,14);
+      const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true}); renderer.setSize(innerWidth,innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.5; container.appendChild(renderer.domElement);
+      scene.add(new THREE.AmbientLight(0xffffff,.5));
+      const keyLight=new THREE.SpotLight(0xfff5e6,4); keyLight.position.set(8,12,8); keyLight.angle=Math.PI/4; keyLight.penumbra=.5; scene.add(keyLight);
+      const rimLight=new THREE.DirectionalLight(0xe0c367,3); rimLight.position.set(-8,-2,-6); scene.add(rimLight);
+      const fillLight=new THREE.DirectionalLight(0x3a5c20,2); fillLight.position.set(6,-6,2); scene.add(fillLight);
+      function createNoiseTexture(){const canvas=document.createElement('canvas');canvas.width=canvas.height=512;const ctx=canvas.getContext('2d');for(let x=0;x<512;x++){for(let y=0;y<512;y++){const val=Math.floor(Math.random()*255);ctx.fillStyle=`rgb(${val},${val},${val})`;ctx.fillRect(x,y,2,12)}}const tex=new THREE.CanvasTexture(canvas);tex.wrapS=THREE.RepeatWrapping;tex.wrapT=THREE.RepeatWrapping;tex.repeat.set(2,4);return tex}
+      const organicBumpMap=createNoiseTexture();
+      const stalkMaterial=new THREE.MeshPhysicalMaterial({color:0x3d6323,roughness:.35,metalness:.1,clearcoat:1,clearcoatRoughness:.15,bumpMap:organicBumpMap,bumpScale:.003});
+      const nodeMaterial=new THREE.MeshStandardMaterial({color:0x9e9175,roughness:.8,bumpMap:organicBumpMap,bumpScale:.005});
+      const coreMaterial=new THREE.MeshStandardMaterial({color:0xe8e1cd,roughness:1});
+      const crystalMaterial=new THREE.MeshPhysicalMaterial({color:0xffffff,transmission:1,opacity:1,metalness:.1,roughness:.05,ior:1.6,thickness:3,clearcoat:1});
+      const heroGroup=new THREE.Group(); scene.add(heroGroup);
+      const numSegments=6,segLength=2.4,totalHeight=numSegments*segLength,vertex=new THREE.Vector3();
+      for(let i=0;i<numSegments;i++){const t=i/numSegments,radiusBottom=.45-t*.1,radiusTop=.4-t*.1;const segGeo=new THREE.CylinderGeometry(radiusTop,radiusBottom,segLength,64,16);const pos=segGeo.attributes.position;for(let v=0;v<pos.count;v++){vertex.fromBufferAttribute(pos,v);const noise=Math.sin(vertex.y*5)*.015+Math.cos(vertex.x*8)*.01;vertex.x+=vertex.x*noise;vertex.z+=vertex.z*noise;pos.setXYZ(v,vertex.x,vertex.y,vertex.z)}segGeo.computeVertexNormals();const segment=new THREE.Mesh(segGeo,stalkMaterial);segment.position.y=i*segLength-totalHeight/2+segLength/2;heroGroup.add(segment);const ringGeo=new THREE.TorusGeometry(radiusBottom*1.05,.06,32,64);const ringPos=ringGeo.attributes.position;for(let v=0;v<ringPos.count;v++){vertex.fromBufferAttribute(ringPos,v);vertex.z+=Math.sin(vertex.x*10)*.01;ringPos.setXYZ(v,vertex.x,vertex.y,vertex.z)}ringGeo.computeVertexNormals();const ring=new THREE.Mesh(ringGeo,nodeMaterial);ring.rotation.x=Math.PI/2;ring.position.y=segment.position.y-segLength/2;heroGroup.add(ring)}
+      const capGeo=new THREE.CircleGeometry(.35,64),topCap=new THREE.Mesh(capGeo,coreMaterial);topCap.rotation.x=-Math.PI/2;topCap.position.y=totalHeight/2-segLength/2+1.2;heroGroup.add(topCap);
+      const crystalSwarm=new THREE.Group(); for(let i=0;i<30;i++){const cGeo=new THREE.OctahedronGeometry(Math.random()*.4+.2),crystal=new THREE.Mesh(cGeo,crystalMaterial);crystal.position.set((Math.random()-.5)*5,(Math.random()-.5)*6,(Math.random()-.5)*5);crystal.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,0);crystalSwarm.add(crystal)} crystalSwarm.scale.set(.001,.001,.001);heroGroup.add(crystalSwarm);
+      gsap.registerPlugin(ScrollTrigger); const shiftX=innerWidth<=900?0:4.5;
+      const timeline=gsap.timeline({scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1.5}});
+      heroGroup.position.set(2,-1,0);heroGroup.rotation.set(.1,0,-.2);
+      timeline.to(heroGroup.position,{x:-shiftX,y:1.5,z:2,duration:1,ease:'sine.inOut'},0).to(heroGroup.rotation,{x:.4,y:Math.PI*.8,z:.3,duration:1,ease:'sine.inOut'},0);
+      timeline.to(heroGroup.position,{x:shiftX,y:-.5,z:3,duration:1,ease:'sine.inOut'},1).to(heroGroup.rotation,{x:-.2,y:Math.PI*1.6,z:-.2,duration:1,ease:'sine.inOut'},1);
+      timeline.to(heroGroup.position,{x:-shiftX,y:-3.5,z:2,duration:1,ease:'sine.inOut'},2).to(heroGroup.rotation,{x:.5,y:Math.PI*2.2,z:.1,duration:1,ease:'sine.inOut'},2);
+      timeline.to(heroGroup.position,{x:shiftX,y:-2,z:4,duration:1,ease:'sine.inOut'},3).to(heroGroup.rotation,{x:1.3,y:Math.PI*2.9,z:-.5,duration:1,ease:'sine.inOut'},3);
+      timeline.to(heroGroup.position,{x:-shiftX,y:0,z:2,duration:1,ease:'sine.inOut'},4).to(heroGroup.rotation,{x:.1,y:Math.PI*3.8,z:1.5,duration:1,ease:'sine.inOut'},4);
+      timeline.to(heroGroup.position,{x:shiftX,y:.5,z:1,duration:1,ease:'sine.inOut'},5).to(heroGroup.rotation,{x:.2,y:Math.PI*4.9,z:-.1,duration:1,ease:'sine.inOut'},5).to(crystalSwarm.scale,{x:1,y:1,z:1,duration:.8,ease:'back.out(1.2)'},5.2);
+      document.querySelectorAll('.scroll-section').forEach(section=>{const card=section.querySelector('.text-card');gsap.fromTo(card,{opacity:0,y:40},{opacity:1,y:0,duration:1,ease:'power2.out',scrollTrigger:{trigger:section,start:'top 60%',end:'bottom 40%',toggleActions:'play reverse play reverse'}})});
+      let mouseX=0,mouseY=0;addEventListener('mousemove',e=>{mouseX=e.clientX/innerWidth*2-1;mouseY=-(e.clientY/innerHeight)*2+1});const clock=new THREE.Clock();
+      function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();heroGroup.position.y+=Math.sin(t*1.5)*.002;heroGroup.rotation.y+=Math.cos(t)*.0005;camera.position.x+=(mouseX*.6-camera.position.x)*.05;camera.position.y+=(mouseY*.4-camera.position.y)*.05;crystalSwarm.children.forEach((crystal,idx)=>{crystal.rotation.x+=.005;crystal.rotation.y+=.004;crystal.position.y+=Math.sin(t*2+idx)*.003});renderer.render(scene,camera)} animate();
+      addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)})
     });
   </script>
 </body>
