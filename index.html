@@ -3,107 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Saccharum — Premium Botanical</title>
+  <title>Saccharum — The Cinematic Journey</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <style>
-    :root { --bg-dark:#030403; --text-main:#f5f7f5; --text-muted:#8a948d; --accent:#d4af37; --accent-glow:rgba(212,175,55,.1); }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    html,body { width:100%; min-height:100%; font-family:'Inter',sans-serif; background-color:var(--bg-dark); color:var(--text-main); overflow-x:hidden; }
-    body::before { content:""; position:fixed; top:0; left:0; width:100vw; height:100vh; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; }
-    #webgl-container { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:1; pointer-events:none; }
-    nav { position:fixed; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:2rem 6vw; z-index:100; background:linear-gradient(to bottom,rgba(3,4,3,.9),transparent); }
-    .logo { font-family:'Syne',sans-serif; font-weight:800; letter-spacing:-.02em; font-size:1.3rem; text-transform:uppercase; }
-    .tagline { font-size:.7rem; text-transform:uppercase; letter-spacing:.25em; color:var(--accent); font-weight:600; }
-    main { position:relative; z-index:10; width:100%; }
-    section { height:100vh; width:100%; display:flex; flex-direction:column; justify-content:center; padding:0 8vw; position:relative; }
-    .align-center { align-items:center; text-align:center; }
-    .align-left { align-items:flex-start; }
-    .align-right { align-items:flex-end; }
-    .text-card { background:rgba(10,12,10,.85); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border:1px solid rgba(255,255,255,.05); border-left:2px solid var(--accent); padding:3.5rem; width:100%; max-width:500px; box-shadow:0 40px 80px rgba(0,0,0,.9),0 0 40px var(--accent-glow); opacity:0; transform:translateY(40px); }
-    .align-right .text-card { border-left:1px solid rgba(255,255,255,.05); border-right:2px solid var(--accent); }
-    .align-center .text-card { background:transparent; border:none; box-shadow:none; backdrop-filter:none; }
-    h1,h2 { font-family:'Syne',sans-serif; font-weight:800; line-height:1.05; letter-spacing:-.03em; margin-bottom:1.2rem; color:#fff; }
-    h1 { font-size:clamp(3.5rem,7vw,7rem); } h2 { font-size:clamp(2.2rem,4vw,4rem); }
-    .label { color:var(--accent); text-transform:uppercase; font-weight:600; letter-spacing:.25em; font-size:.72rem; margin-bottom:1.2rem; display:block; }
-    p { font-size:1.05rem; line-height:1.7; color:var(--text-muted); font-weight:300; }
-    @media(max-width:900px) { .text-card { padding:2rem; max-width:100%; } .align-left,.align-right { align-items:center; text-align:center; } nav { padding:1.5rem; } }
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    :root { --bg-dark:#050605; --text-main:#fff; --text-muted:#a3aba6; --accent:#d4af37; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body,html { width:100%; font-family:'Inter',sans-serif; background-color:var(--bg-dark); color:var(--text-main); overflow-x:hidden; }
+    nav { position:fixed; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:2rem 6vw; z-index:999; background:linear-gradient(to bottom,rgba(5,6,5,.9),transparent); pointer-events:none; }
+    .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; text-transform:uppercase; letter-spacing:-.02em; }
+    .tagline { font-size:.75rem; text-transform:uppercase; letter-spacing:.25em; color:var(--accent); font-weight:600; }
+    .panel { position:relative; height:100vh; width:100vw; overflow:hidden; display:flex; align-items:center; box-shadow:0 -20px 50px rgba(0,0,0,.8); }
+    .bg-image { position:absolute; top:0; left:0; width:100%; height:100%; background-size:cover; background-position:center; z-index:1; transform:scale(1); }
+    .overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(90deg,rgba(5,6,5,.95) 0%,rgba(5,6,5,.6) 40%,rgba(5,6,5,.2) 100%); z-index:2; }
+    .panel.center-layout .overlay { background:rgba(5,6,5,.6); }
+    .panel.right-layout .overlay { background:linear-gradient(270deg,rgba(5,6,5,.95) 0%,rgba(5,6,5,.6) 40%,rgba(5,6,5,.2) 100%); }
+    .content { position:relative; z-index:3; width:100%; padding:0 8vw; display:flex; }
+    .panel.left-layout .content { justify-content:flex-start; }
+    .panel.right-layout .content { justify-content:flex-end; }
+    .panel.center-layout .content { justify-content:center; text-align:center; }
+    .text-card { max-width:500px; }
+    h1,h2 { font-family:'Syne',sans-serif; font-weight:800; line-height:1.05; letter-spacing:-.03em; margin-bottom:1.5rem; color:#fff; }
+    h1 { font-size:clamp(3.5rem,8vw,7.5rem); } h2 { font-size:clamp(2.5rem,5vw,4.5rem); }
+    .label { color:var(--accent); text-transform:uppercase; font-weight:600; letter-spacing:.25em; font-size:.75rem; margin-bottom:1.2rem; display:block; }
+    p { font-size:1.15rem; line-height:1.7; color:var(--text-muted); font-weight:300; }
+    .scroll-hint { margin-top:3rem; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:#fff; opacity:.5; display:flex; flex-direction:column; align-items:center; gap:1rem; }
+    .scroll-hint .line { width:1px; height:50px; background:linear-gradient(to bottom,#fff,transparent); }
+    @media(max-width:900px) {
+      .overlay,.panel.right-layout .overlay,.panel.left-layout .overlay { background:linear-gradient(to top,rgba(5,6,5,1) 0%,rgba(5,6,5,.8) 50%,rgba(5,6,5,.2) 100%); }
+      .content,.panel.left-layout .content,.panel.right-layout .content { justify-content:center; text-align:center; align-items:flex-end; padding-bottom:10vh; }
+      nav { padding:1.5rem; }
+    }
+  </style>
 </head>
 <body>
-  <nav><div class="logo">Saccharum</div><div class="tagline">Botanical Inspector</div></nav>
-  <div id="webgl-container"></div>
+  <nav><div class="logo">Saccharum</div><div class="tagline">The Real Process</div></nav>
   <main>
-    <section class="align-center section-panel"><div class="text-card"><span class="label">Saccharum Officinarum</span><h1>NATURE'S<br>SYNTHESIS</h1><p style="margin:0 auto;max-width:440px;">Scroll to deconstruct the vascular anatomy of concentrated sucrose.</p></div></section>
-    <section class="align-right section-panel"><div class="text-card"><span class="label">01 — The Growth Ring</span><h2>VASCULAR<br>NODES</h2><p>Thickened structural rings interlock every segment. These nodes anchor auxiliary buds that allow the plant to clone and propagate without seeds.</p></div></section>
-    <section class="align-left section-panel"><div class="text-card"><span class="label">02 — Internode Core</span><h2>PARENCHYMA<br>TISSUE</h2><p>Inside the fibrous rind lies soft spongy tissue that stores concentrated sweet fluid—fueling rapid vertical growth under high tropical humidity.</p></div></section>
-    <section class="align-right section-panel"><div class="text-card"><span class="label">03 — Solar Canopy</span><h2>PHOTOSYNTHESIS<br>ENGINE</h2><p>Long, serrated leaves channel equatorial sunlight directly down the vascular bundles, driving massive enzymatic sugar synthesis.</p></div></section>
-    <section class="align-left section-panel"><div class="text-card"><span class="label">04 — Harvest Shearing</span><h2>TRANS-SECTION<br>CUT</h2><p>Clean base cuts sever the stalk at peak sucrose saturation, preventing enzymatic degradation prior to immediate industrial milling.</p></div></section>
-    <section class="align-right section-panel"><div class="text-card"><span class="label">05 — Pressure Milling</span><h2>BAGASSE<br>EXTRACTION</h2><p>Heavy mechanical compression separates cellular sap from the lignified fibers, repurposing the dry biomass to fuel the factory boilers.</p></div></section>
-    <section class="align-left section-panel"><div class="text-card" style="background:rgba(10,12,10,.85);border:none;border-left:2px solid var(--accent);"><span class="label">06 — Nucleation</span><h2>PURE SUCROSE</h2><p>Under precise vacuum evaporation, concentrated liquor precipitates into crystalline geometry—the purest essence of equatorial agriculture.</p></div></section>
+    <section class="panel center-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1590274706596-a83cbce0dcfa?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Agriculture</span><h1>NATURE'S<br>SYNTHESIS</h1><p style="margin:0 auto;">Experience the authentic journey from rich soil to raw crystal.</p><div class="scroll-hint"><span>Scroll Down</span><div class="line"></div></div></div></div></section>
+    <section class="panel left-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Step 01 : Planting</span><h2>THE SOIL</h2><p>Sugarcane isn't grown from traditional seeds. Farmers plant living stalks directly into deep, nutrient-rich furrows. This cloning process ensures the highest-yielding crops are passed down to the next generation.</p></div></div></section>
+    <section class="panel right-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Step 02 : Cultivation</span><h2>TROPICAL SUN</h2><p>As a perennial grass, sugarcane demands immense equatorial sunlight and heavy rains. It grows aggressively over 14 months, reaching heights of up to 20 feet in dense, impassable green canopies.</p></div></div></section>
+    <section class="panel left-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1595801742459-07b92df09a63?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Step 03 : The Harvest</span><h2>PEAK YIELD</h2><p>Harvesting is triggered the exact moment sucrose levels peak in the plant's base. Whether sheared by hand with machetes or cut by heavy machinery, timing the harvest is absolute and unforgiving.</p></div></div></section>
+    <section class="panel right-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1592982537447-6f2334edee84?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Step 04 : Transport</span><h2>THE RACE</h2><p>Once severed from the earth, the cane begins losing its sweet content immediately. Convoys of tractors race against the clock to deliver the raw harvest to the extraction mill within 24 hours.</p></div></div></section>
+    <section class="panel left-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Step 05 : Extraction</span><h2>THE MILL</h2><p>Inside the factory, heavy serrated steel rollers crush the stalks to extract the raw green juice. The leftover fiber (bagasse) is thrown into massive boilers to generate steam power for the entire facility.</p></div></div></section>
+    <section class="panel center-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1622484211148-525916053da0?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">The Result</span><h2>RAW SUGAR</h2><p style="margin:0 auto;">The extracted juice is boiled under vacuum, clarified, and spun in powerful centrifuges, crystallizing into the pure, unrefined raw sugar that fuels the modern world.</p></div></div></section>
   </main>
   <script>
-    window.addEventListener('DOMContentLoaded',()=>{
-      const container=document.getElementById('webgl-container');
-      const scene=new THREE.Scene();
-      scene.fog=new THREE.FogExp2(0x030403,.035);
-      const camera=new THREE.PerspectiveCamera(35,window.innerWidth/window.innerHeight,.1,100);
-      camera.position.set(0,0,14);
-      const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
-      renderer.setSize(window.innerWidth,window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-      renderer.toneMapping=THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure=1.3;
-      container.appendChild(renderer.domElement);
-      scene.add(new THREE.AmbientLight(0xffffff,.4));
-      const keyLight=new THREE.SpotLight(0xfff3db,3.5); keyLight.position.set(8,12,8); keyLight.angle=Math.PI/5; keyLight.penumbra=.5; scene.add(keyLight);
-      const rimLight=new THREE.DirectionalLight(0xd4af37,2.5); rimLight.position.set(-8,-2,-6); scene.add(rimLight);
-      const fillLight=new THREE.DirectionalLight(0x4a7c2a,1.5); fillLight.position.set(6,-6,2); scene.add(fillLight);
-      function createNoiseTexture(){const canvas=document.createElement('canvas');canvas.width=512;canvas.height=512;const ctx=canvas.getContext('2d');for(let x=0;x<512;x++){for(let y=0;y<512;y++){const val=Math.floor(Math.random()*255);ctx.fillStyle=`rgb(${val},${val},${val})`;ctx.fillRect(x,y,2,10)}}const tex=new THREE.CanvasTexture(canvas);tex.wrapS=THREE.RepeatWrapping;tex.wrapT=THREE.RepeatWrapping;tex.repeat.set(2,4);return tex}
-      const organicBumpMap=createNoiseTexture();
-      const stalkMaterial=new THREE.MeshPhysicalMaterial({color:0x477028,roughness:.4,metalness:.05,clearcoat:.8,clearcoatRoughness:.2,bumpMap:organicBumpMap,bumpScale:.002});
-      const nodeMaterial=new THREE.MeshStandardMaterial({color:0x9c8b65,roughness:.9,bumpMap:organicBumpMap,bumpScale:.005});
-      const coreMaterial=new THREE.MeshStandardMaterial({color:0xe3d9bc,roughness:1});
-      const crystalMaterial=new THREE.MeshPhysicalMaterial({color:0xffffff,transmission:1,opacity:1,metalness:.1,roughness:.05,ior:1.6,thickness:3,clearcoat:1});
-      const heroGroup=new THREE.Group(); scene.add(heroGroup);
-      const numSegments=6,segLength=2.4,totalHeight=numSegments*segLength;
-      for(let i=0;i<numSegments;i++){
-        const t=i/numSegments,radiusBottom=.45-t*.1,radiusTop=.4-t*.1;
-        const segGeo=new THREE.CylinderGeometry(radiusTop,radiusBottom,segLength,64,16);
-        const posAttribute=segGeo.attributes.position,vertex=new THREE.Vector3();
-        for(let v=0;v<posAttribute.count;v++){vertex.fromBufferAttribute(posAttribute,v);const noise=Math.sin(vertex.y*5)*.015+Math.cos(vertex.x*8)*.01;vertex.x+=vertex.x*noise;vertex.z+=vertex.z*noise;posAttribute.setXYZ(v,vertex.x,vertex.y,vertex.z)}
-        segGeo.computeVertexNormals();
-        const segment=new THREE.Mesh(segGeo,stalkMaterial); segment.position.y=i*segLength-totalHeight/2+segLength/2; heroGroup.add(segment);
-        const ringGeo=new THREE.TorusGeometry(radiusBottom*1.05,.06,32,64),ringPos=ringGeo.attributes.position;
-        for(let v=0;v<ringPos.count;v++){vertex.fromBufferAttribute(ringPos,v);const noise=Math.sin(vertex.x*10)*.01;vertex.z+=noise;ringPos.setXYZ(v,vertex.x,vertex.y,vertex.z)}
-        ringGeo.computeVertexNormals(); const ring=new THREE.Mesh(ringGeo,nodeMaterial); ring.rotation.x=Math.PI/2; ring.position.y=segment.position.y-segLength/2; heroGroup.add(ring);
-      }
-      const capGeo=new THREE.CircleGeometry(.35,64),topCap=new THREE.Mesh(capGeo,coreMaterial); topCap.rotation.x=-Math.PI/2; topCap.position.y=totalHeight/2-segLength/2+1.2; heroGroup.add(topCap);
-      const crystalSwarm=new THREE.Group();
-      for(let i=0;i<25;i++){const cGeo=new THREE.OctahedronGeometry(Math.random()*.4+.2,0),crystal=new THREE.Mesh(cGeo,crystalMaterial);crystal.position.set((Math.random()-.5)*5,(Math.random()-.5)*6,(Math.random()-.5)*5);crystal.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,0);crystalSwarm.add(crystal)}
-      crystalSwarm.scale.set(.001,.001,.001); heroGroup.add(crystalSwarm);
+    document.addEventListener('DOMContentLoaded',()=>{
       gsap.registerPlugin(ScrollTrigger);
-      const isMobile=window.innerWidth<=900,shiftX=isMobile?0:4.8;
-      const timeline=gsap.timeline({scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1.5}});
-      heroGroup.position.set(2,-1,0); heroGroup.rotation.set(.1,0,-.2);
-      timeline.to(heroGroup.position,{x:-shiftX,y:1.5,z:2,duration:1,ease:'power1.inOut'},0).to(heroGroup.rotation,{x:.4,y:Math.PI*.8,z:.3,duration:1},0)
-        .to(heroGroup.position,{x:shiftX,y:-.5,z:3,duration:1,ease:'power1.inOut'},1).to(heroGroup.rotation,{x:-.2,y:Math.PI*1.6,z:-.2,duration:1},1)
-        .to(heroGroup.position,{x:-shiftX,y:-3.5,z:2,duration:1,ease:'power1.inOut'},2).to(heroGroup.rotation,{x:.5,y:Math.PI*2.2,z:.1,duration:1},2)
-        .to(heroGroup.position,{x:shiftX,y:-2,z:4,duration:1,ease:'power1.inOut'},3).to(heroGroup.rotation,{x:1.3,y:Math.PI*2.9,z:-.5,duration:1},3)
-        .to(heroGroup.position,{x:-shiftX,y:0,z:2,duration:1,ease:'power1.inOut'},4).to(heroGroup.rotation,{x:.1,y:Math.PI*3.8,z:1.5,duration:1},4)
-        .to(heroGroup.position,{x:shiftX,y:.5,z:1,duration:1,ease:'power1.inOut'},5).to(heroGroup.rotation,{x:.2,y:Math.PI*4.9,z:-.1,duration:1},5)
-        .to(crystalSwarm.scale,{x:1,y:1,z:1,duration:.8,ease:'back.out(1.2)'},5.2);
-      document.querySelectorAll('.section-panel').forEach(panel=>{const card=panel.querySelector('.text-card');gsap.to(card,{opacity:1,y:0,scrollTrigger:{trigger:panel,start:'top 65%',end:'top 25%',scrub:false,toggleActions:'play reverse play reverse'}})});
-      let mouseX=0,mouseY=0;
-      window.addEventListener('mousemove',e=>{mouseX=e.clientX/window.innerWidth*2-1;mouseY=-(e.clientY/window.innerHeight)*2+1});
-      const clock=new THREE.Clock();
-      function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();heroGroup.position.y+=Math.sin(t*1.5)*.002;heroGroup.rotation.y+=Math.cos(t)*.0005;camera.position.x+=(mouseX*.6-camera.position.x)*.05;camera.position.y+=(mouseY*.4-camera.position.y)*.05;crystalSwarm.children.forEach((crystal,idx)=>{crystal.rotation.x+=.005;crystal.rotation.y+=.004;crystal.position.y+=Math.sin(t*2+idx)*.002});renderer.render(scene,camera)}
-      animate();
-      window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight)});
+      const panels=gsap.utils.toArray('.panel');
+      panels.forEach(panel=>{
+        ScrollTrigger.create({trigger:panel,start:'top top',pin:true,pinSpacing:false});
+        const bgImage=panel.querySelector('.bg-image');
+        gsap.fromTo(bgImage,{scale:1},{scale:1.15,ease:'none',scrollTrigger:{trigger:panel,start:'top bottom',end:'bottom top',scrub:true}});
+        const textCard=panel.querySelector('.text-card');
+        gsap.fromTo(textCard,{opacity:0,y:50},{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:panel,start:'top 60%',toggleActions:'play none none reverse'}});
+      });
     });
   </script>
 </body>
