@@ -1,80 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Saccharum — 3D Botanical Journey</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <style>
-    :root{--bg-dark:#050605;--text-main:#fff;--text-muted:#9ba39e;--accent:#d4af37}
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:100%;min-height:100%;font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-main);overflow-x:hidden;overscroll-behavior:none}
-    body::after{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
-    #webgl-container{position:fixed;inset:0;width:100vw;height:100vh;z-index:1;pointer-events:none}
-    #loader{position:fixed;inset:0;background:#050605;z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity .8s ease-out}
-    .loader-text{font-family:'Syne',sans-serif;font-size:1.2rem;color:var(--accent);margin-bottom:20px;letter-spacing:.15em;text-transform:uppercase}
-    nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:2rem 6vw;z-index:100;background:linear-gradient(to bottom,rgba(5,6,5,.9),transparent)}
-    .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;text-transform:uppercase;letter-spacing:-.02em}.tagline{font-size:.7rem;text-transform:uppercase;letter-spacing:.25em;color:var(--accent);font-weight:600}
-    main{position:relative;z-index:10;width:100%;pointer-events:none}
-    section{height:130vh;width:100%;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative;pointer-events:auto}
-    .align-center{align-items:center;text-align:center}.align-left{align-items:flex-start}.align-right{align-items:flex-end}
-    .text-card{background:rgba(12,14,12,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.05);border-left:2px solid var(--accent);padding:3rem 3.5rem;width:100%;max-width:480px;box-shadow:0 30px 60px rgba(0,0,0,.7);opacity:0;transform:translateY(50px)}
-    .align-right .text-card{border-left:none;border-right:2px solid var(--accent)}.align-center .text-card{background:transparent;border:none;box-shadow:none;backdrop-filter:none;max-width:600px}
-    h1,h2{font-family:'Syne',sans-serif;font-weight:800;line-height:1.05;letter-spacing:-.03em;margin-bottom:1.2rem;color:#fff}h1{font-size:clamp(3rem,7vw,6.5rem)}h2{font-size:clamp(2.2rem,4vw,3.8rem)}
-    .label{color:var(--accent);text-transform:uppercase;font-weight:600;letter-spacing:.25em;font-size:.72rem;margin-bottom:1.2rem;display:block}p{font-size:1.05rem;line-height:1.7;color:var(--text-muted);font-weight:300}
-    @media(max-width:900px){.text-card{padding:2rem;max-width:100%;background:rgba(12,14,12,.9);border:none!important;border-top:2px solid var(--accent)!important}.align-left,.align-right{align-items:center;text-align:center}nav{padding:1.5rem}}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saccharum — 2.5D Product Drop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ec;--ink:#121a14;--orange:#f26d21;--green:#2e5935}
+*{box-sizing:border-box;margin:0;padding:0}html,body{width:100%;min-height:100%;overflow-x:hidden;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif}body{overscroll-behavior:none}
+nav{position:fixed;top:0;left:0;right:0;height:88px;padding:0 6vw;display:flex;align-items:center;justify-content:space-between;z-index:20;mix-blend-mode:multiply}.logo{font-family:Syne,sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-.04em;text-transform:uppercase}.nav-link{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:4px}
+main{position:relative;z-index:2}section{height:150vh;min-height:900px;position:relative;display:flex;align-items:center;padding:0 8vw;overflow:hidden}section:first-child{height:130vh}.text{width:45%;max-width:620px;position:relative;z-index:5}.kicker{display:block;color:var(--orange);font-size:.7rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;margin-bottom:1.5rem}h1,h2{font-family:Syne,sans-serif;font-weight:800;letter-spacing:-.055em;line-height:.92}h1{font-size:clamp(4rem,9vw,9rem)}h2{font-size:clamp(3.5rem,7vw,7rem)}p{font-size:clamp(1rem,1.35vw,1.25rem);line-height:1.7;color:#536057;max-width:500px;margin-top:2rem;font-weight:400}
+.hero-image{position:fixed;z-index:4;left:50%;top:50%;height:80vh;width:auto;max-width:58vw;object-fit:contain;transform:translate(-50%,-50%);filter:drop-shadow(0 35px 35px rgba(18,26,20,.2));pointer-events:none;will-change:transform}.section-2 .text{margin-left:auto}.section-2 h2{color:var(--orange);font-size:clamp(4rem,9vw,9rem)}.outline{-webkit-text-stroke:2px var(--ink);color:transparent}.section-3{justify-content:flex-start;align-items:center}.section-3 .text{width:52%;margin-left:48%}.section-3 h2{color:var(--green)}.endmark{font-family:Syne,sans-serif;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;margin-top:3rem}.grid{position:absolute;inset:0;opacity:.28;background-image:linear-gradient(rgba(18,26,20,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(18,26,20,.12) 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(to bottom,transparent,black 20%,black 80%,transparent)}
+@media(max-width:900px){nav{height:72px;padding:0 5vw}.hero-image{height:58vh;max-width:80vw;top:42%}section,section:first-child{height:125vh;min-height:760px;padding:0 7vw;align-items:flex-end;padding-bottom:16vh}.text,.section-2 .text,.section-3 .text{width:100%;max-width:650px;margin:0}.text{background:rgba(244,243,236,.78);backdrop-filter:blur(8px);padding:1.5rem}.hero-image{z-index:3}h1{font-size:clamp(3.4rem,16vw,6rem)}h2{font-size:clamp(3.1rem,15vw,5.5rem)}p{font-size:1rem;margin-top:1.2rem}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
-  <div id="loader"><div class="loader-text">Generating Geometry</div></div>
-  <nav><div class="logo">Saccharum</div><div class="tagline">3D Process</div></nav>
-  <div id="webgl-container"></div>
-  <main>
-    <section class="align-center section-panel"><div class="text-card"><span class="label">Saccharum Officinarum</span><h1>NATURE'S<br>SYNTHESIS</h1><p style="margin:0 auto;">Scroll to deconstruct the anatomy and extraction of concentrated sucrose.</p></div></section>
-    <section class="align-left section-panel"><div class="text-card"><span class="label">Step 01 : Planting</span><h2>THE SOIL</h2><p>Sugarcane isn't grown from traditional seeds. Farmers plant living stalks directly into deep furrows. This cloning process ensures the highest-yielding crops are passed down to the next generation.</p></div></section>
-    <section class="align-right section-panel"><div class="text-card"><span class="label">Step 02 : Cultivation</span><h2>TROPICAL SUN</h2><p>Inside the fibrous rind lies soft spongy tissue that stores concentrated sweet fluid—fueling rapid vertical growth under high tropical humidity.</p></div></section>
-    <section class="align-left section-panel"><div class="text-card"><span class="label">Step 03 : The Harvest</span><h2>PEAK YIELD</h2><p>Harvesting is triggered the exact moment sucrose levels peak in the plant's base. Timing the harvest is absolute and unforgiving.</p></div></section>
-    <section class="align-right section-panel"><div class="text-card"><span class="label">Step 04 : Extraction</span><h2>THE MILL</h2><p>Heavy mechanical compression separates cellular sap from the lignified fibers, repurposing the dry biomass to fuel the factory boilers.</p></div></section>
-    <section class="align-center section-panel"><div class="text-card" style="background:rgba(12,14,12,.85);border-top:2px solid var(--accent);max-width:550px;"><span class="label">The Result</span><h2>PURE SUCROSE</h2><p>Under precise vacuum evaporation, concentrated liquor precipitates into crystalline geometry—the purest essence of equatorial agriculture.</p></div></section>
-  </main>
-  <script>
-    window.addEventListener('DOMContentLoaded',()=>{
-      const container=document.getElementById('webgl-container');
-      const scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x050605,.04);
-      const camera=new THREE.PerspectiveCamera(38,innerWidth/innerHeight,.1,100);camera.position.set(0,0,12);
-      const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.3;container.appendChild(renderer.domElement);
-      scene.add(new THREE.AmbientLight(0xffffff,.5));
-      const keyLight=new THREE.SpotLight(0xfff3db,4);keyLight.position.set(6,12,8);keyLight.angle=Math.PI/4;keyLight.penumbra=.5;keyLight.castShadow=true;scene.add(keyLight);
-      const rimLight=new THREE.DirectionalLight(0xd4af37,2.5);rimLight.position.set(-8,2,-6);scene.add(rimLight);
-      function createNoiseTexture(isSoil=false){const canvas=document.createElement('canvas');canvas.width=512;canvas.height=512;const ctx=canvas.getContext('2d');ctx.fillStyle=isSoil?'#222':'#888';ctx.fillRect(0,0,512,512);for(let i=0;i<3000;i++){const val=Math.floor(Math.random()*255);ctx.fillStyle=`rgba(${val},${val},${val},${isSoil?'.8':'.3'})`;if(isSoil)ctx.fillRect(Math.random()*512,Math.random()*512,3,3);else ctx.fillRect(Math.random()*512,Math.random()*512,1,Math.random()*40+10)}const tex=new THREE.CanvasTexture(canvas);tex.wrapS=THREE.RepeatWrapping;tex.wrapT=THREE.RepeatWrapping;return tex}
-      const fiberBump=createNoiseTexture(false),soilBump=createNoiseTexture(true);
-      const stalkMaterial=new THREE.MeshPhysicalMaterial({color:0x5a8231,roughness:.4,metalness:.1,clearcoat:.6,clearcoatRoughness:.3,bumpMap:fiberBump,bumpScale:.004});
-      const leafMaterial=new THREE.MeshStandardMaterial({color:0x476b22,roughness:.6,side:THREE.DoubleSide});
-      const nodeMaterial=new THREE.MeshStandardMaterial({color:0x9c8b65,roughness:.9,bumpMap:fiberBump,bumpScale:.005});
-      const soilMaterial=new THREE.MeshStandardMaterial({color:0x120f0d,roughness:1,bumpMap:soilBump,bumpScale:.02});
-      const metalMaterial=new THREE.MeshStandardMaterial({color:0x555555,roughness:.3,metalness:.9});
-      const bladeMaterial=new THREE.MeshStandardMaterial({color:0xdddddd,roughness:.2,metalness:1});
-      const crystalMaterial=new THREE.MeshPhysicalMaterial({color:0xffffff,transmission:1,opacity:1,metalness:.1,roughness:.05,ior:1.55,thickness:2});
-      const masterGroup=new THREE.Group();scene.add(masterGroup);const zSpacing=25;
-      function buildStalk(segments,length,taperStart,taperEnd){const group=new THREE.Group();for(let i=0;i<segments;i++){const rBottom=taperStart-(i/segments)*(taperStart-taperEnd),rTop=taperStart-((i+1)/segments)*(taperStart-taperEnd);const segGeo=new THREE.CylinderGeometry(rTop,rBottom,length,16,4);const pos=segGeo.attributes.position,v=new THREE.Vector3();for(let j=0;j<pos.count;j++){v.fromBufferAttribute(pos,j);v.x+=Math.sin(v.y*2+i)*.02;pos.setXYZ(j,v.x,v.y,v.z)}segGeo.computeVertexNormals();const mesh=new THREE.Mesh(segGeo,stalkMaterial);mesh.position.y=i*length;mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);if(i<segments-1){const ring=new THREE.Mesh(new THREE.TorusGeometry(rTop*1.08,.04,12,16),nodeMaterial);ring.rotation.x=Math.PI/2;ring.position.y=mesh.position.y+length/2;group.add(ring)}}group.position.y=-(segments*length)/2;return group}
-      const stage0=buildStalk(5,2.2,.45,.35);stage0.position.set(0,0,0);masterGroup.add(stage0);
-      const stage1=new THREE.Group();const soilGeo=new THREE.BoxGeometry(4,1,3,10,2,10),sPos=soilGeo.attributes.position,sv=new THREE.Vector3();for(let j=0;j<sPos.count;j++){sv.fromBufferAttribute(sPos,j);if(sv.y>0)sv.y+=(Math.random()-.5)*.3;sPos.setXYZ(j,sv.x,sv.y,sv.z)}soilGeo.computeVertexNormals();const soilMesh=new THREE.Mesh(soilGeo,soilMaterial);soilMesh.position.y=-1;const sett=buildStalk(2,1.5,.3,.3);sett.rotation.z=Math.PI/2;sett.position.set(0,-.3,0);stage1.add(soilMesh,sett);stage1.position.set(3.5,0,-zSpacing);masterGroup.add(stage1);
-      const stage2=new THREE.Group();for(let i=0;i<4;i++){const stalk=buildStalk(4,2,.3,.2);stalk.position.set((Math.random()-.5)*1.5,(Math.random()-.5)*1,(Math.random()-.5)*1.5);stalk.rotation.set((Math.random()-.5)*.2,0,(Math.random()-.5)*.2);for(let l=0;l<3;l++){const leafGeo=new THREE.PlaneGeometry(.3,3,2,8),lp=leafGeo.attributes.position;for(let k=0;k<lp.count;k++){sv.fromBufferAttribute(lp,k);sv.z+=Math.pow(sv.y,2)*-.2;lp.setXYZ(k,sv.x,sv.y,sv.z)}leafGeo.computeVertexNormals();const leaf=new THREE.Mesh(leafGeo,leafMaterial);leaf.position.y=3.5;leaf.rotation.y=l*Math.PI*.6+Math.random();leaf.rotation.x=.5;stalk.add(leaf)}stage2.add(stalk)}stage2.position.set(-3.5,-2,-zSpacing*2);masterGroup.add(stage2);
-      const stage3=new THREE.Group(),bundle=new THREE.Group();for(let i=0;i<6;i++){const s=buildStalk(3,1.8,.25,.25);s.position.set((Math.random()-.5)*.8,0,(Math.random()-.5)*.8);s.rotation.set((Math.random()-.5)*.1,0,(Math.random()-.5)*.1);bundle.add(s)}const rope=new THREE.Mesh(new THREE.TorusGeometry(.6,.05,8,16),nodeMaterial);rope.rotation.x=Math.PI/2;bundle.add(rope);bundle.rotation.z=.3;stage3.add(bundle);const machete=new THREE.Group(),blade=new THREE.Mesh(new THREE.BoxGeometry(.05,2,.3),bladeMaterial);blade.position.y=1;const handle=new THREE.Mesh(new THREE.CylinderGeometry(.08,.08,.6),nodeMaterial);machete.add(blade,handle);machete.position.set(-1.5,0,1);machete.rotation.set(.5,.5,-.5);stage3.add(machete);stage3.position.set(3.5,0,-zSpacing*3);masterGroup.add(stage3);
-      const stage4=new THREE.Group(),rGeo=new THREE.CylinderGeometry(1.2,1.2,4,32),r1=new THREE.Mesh(rGeo,metalMaterial),r2=new THREE.Mesh(rGeo,metalMaterial);r1.rotation.x=Math.PI/2;r1.position.y=1.1;r2.rotation.x=Math.PI/2;r2.position.y=-1.1;stage4.add(r1,r2);stage4.position.set(-3.5,0,-zSpacing*4);masterGroup.add(stage4);
-      const stage5=new THREE.Group();for(let i=0;i<20;i++){const crystal=new THREE.Mesh(new THREE.OctahedronGeometry(Math.random()*.5+.2,0),crystalMaterial);crystal.position.set((Math.random()-.5)*4,(Math.random()-.5)*4,(Math.random()-.5)*4);crystal.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,0);stage5.add(crystal)}stage5.position.set(0,0,-zSpacing*5);masterGroup.add(stage5);
-      setTimeout(()=>{document.getElementById('loader').style.opacity='0';setTimeout(()=>document.getElementById('loader').style.display='none',800)},500);
-      gsap.registerPlugin(ScrollTrigger);const totalDepth=5*zSpacing;gsap.to(masterGroup.position,{z:totalDepth,ease:'none',scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1}});
-      gsap.utils.toArray('.section-panel').forEach(panel=>{const textCard=panel.querySelector('.text-card');const tl=gsap.timeline({scrollTrigger:{trigger:panel,start:'top 75%',end:'bottom 25%',scrub:.5}});tl.fromTo(textCard,{opacity:0,y:50},{opacity:1,y:0,duration:.2,ease:'power2.out'}).to(textCard,{opacity:1,y:0,duration:.5}).to(textCard,{opacity:0,y:-50,duration:.3,ease:'power2.in'})});
-      let mouseX=0,mouseY=0;window.addEventListener('mousemove',e=>{mouseX=e.clientX/innerWidth*2-1;mouseY=-(e.clientY/innerHeight)*2+1});const clock=new THREE.Clock();
-      function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();camera.position.x+=(mouseX*.5-camera.position.x)*.05;camera.position.y+=(mouseY*.5-camera.position.y)*.05;stage0.rotation.y=t*.2;stage0.rotation.x=.1;stage1.rotation.y=Math.sin(t*.5)*.1;stage1.position.y=Math.sin(t)*.2;stage2.rotation.y=t*.1;stage3.children[0].rotation.y=t*.2;stage3.children[1].position.y=Math.sin(t*3)*.2;stage4.children[0].rotation.y=t*.8;stage4.children[1].rotation.y=-t*.8;stage4.rotation.y=t*.1;stage5.children.forEach((c,i)=>{c.rotation.x+=.005;c.rotation.y+=.005;c.position.y+=Math.sin(t*2+i)*.002});stage5.rotation.y=t*.1;renderer.render(scene,camera)}animate();
-      window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
-    });
-  </script>
+<nav><div class="logo">Saccharum</div><a class="nav-link" href="#result">Pre-Order</a></nav>
+<div class="hero-image-wrap"><img class="hero-image" src="sugarcane.png" alt="Sugarcane stalk"></div>
+<main>
+<section class="section-1"><div class="grid"></div><div class="text"><span class="kicker">01 / The real source</span><h1>GROWN<br>WITH<br>INTENT.</h1><p>Before sugar becomes a crystal, it begins as a living stalk built to store energy. Follow the crop from field to final product.</p></div></section>
+<section class="section-2"><div class="grid"></div><div class="text"><span class="kicker">02 / Raw power</span><h2>RAW<br><span class="outline">POWER.</span></h2><p>The harvested cane is crushed to release its juice. Fibrous bagasse remains behind and can be reused as a source of process energy.</p></div></section>
+<section id="result" class="section-3"><div class="grid"></div><div class="text"><span class="kicker">03 / The final drop</span><h2>PURE<br>SUCROSE.</h2><p>Clarification, evaporation and crystallisation transform concentrated cane juice into the familiar sugar crystals.</p><div class="endmark">From cane to crystal / Flip Class 2026</div></div></section>
+</main>
+<script>
+window.addEventListener('load',()=>{gsap.registerPlugin(ScrollTrigger);const img=document.querySelector('.hero-image');gsap.set(img,{xPercent:-50,yPercent:-50});const tl=gsap.timeline({scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1}});tl.to(img,{scale:1.15,rotation:8,duration:1}).to(img,{scale:2.5,rotation:90,y:'20vh',duration:1}).to(img,{scale:.8,rotation:-15,y:'40vh',duration:1});gsap.utils.toArray('.text').forEach(el=>gsap.fromTo(el,{opacity:0,y:55},{opacity:1,y:0,duration:.8,ease:'power2.out',scrollTrigger:{trigger:el.closest('section'),start:'top 72%',end:'top 35%',scrub:.6}}));window.addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth-.5)*12,y=(e.clientY/innerHeight-.5)*8;gsap.to(img,{x:x-50,y:y-50,duration:1.2,ease:'power3.out',overwrite:'auto'})});window.addEventListener('resize',()=>ScrollTrigger.refresh())});
+</script>
 </body>
 </html>
