@@ -3,56 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Saccharum — The Farming Process</title>
-  
+  <title>Saccharum — The Real Process</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg-dark:#050605; --text-main:#ffffff; --text-muted:#a3aba6; --accent:#d4af37; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html,body { width:100%; min-height:100%; font-family:'Inter',sans-serif; background-color:var(--bg-dark); color:var(--text-main); overflow-x:hidden; }
+    #webgl-container { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:1; pointer-events:none; }
+    #loader { position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:var(--bg-dark); z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; transition:opacity .8s ease-out; }
+    .loader-text { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--accent); margin-bottom:20px; letter-spacing:.1em; text-transform:uppercase; }
+    .progress-bar-container { width:300px; height:1px; background:rgba(255,255,255,.1); position:relative; overflow:hidden; }
+    #progress-bar { position:absolute; top:0; left:0; height:100%; width:0%; background:var(--accent); transition:width .1s linear; }
+    nav { position:fixed; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:2.5rem 6vw; z-index:100; background:linear-gradient(to bottom,rgba(5,6,5,.9),transparent); }
+    .logo { font-family:'Playfair Display',serif; font-weight:700; letter-spacing:.05em; font-size:1.4rem; text-transform:uppercase; }
+    .nav-links { font-size:.75rem; text-transform:uppercase; letter-spacing:.15em; color:var(--accent); font-weight:600; }
+    main { position:relative; z-index:10; width:100%; }
+    section { height:100vh; width:100%; display:flex; align-items:center; padding:0 6vw; position:relative; }
+    section { justify-content:flex-start; }
+    section:nth-child(even) { justify-content:flex-end; }
+    section.hero { justify-content:center; text-align:center; }
+    .text-card { background:rgba(12,15,12,.6); backdrop-filter:blur(15px); -webkit-backdrop-filter:blur(15px); border-left:2px solid var(--accent); padding:3rem; width:40vw; max-width:500px; box-shadow:0 30px 60px rgba(0,0,0,.8); opacity:0; }
+    section:nth-child(even) .text-card { border-left:none; border-right:2px solid var(--accent); }
+    section.hero .text-card { border:none; border-top:2px solid var(--accent); background:transparent; box-shadow:none; backdrop-filter:none; width:100%; max-width:600px; }
+    h1,h2 { font-family:'Playfair Display',serif; font-weight:700; line-height:1.1; margin-bottom:1.2rem; color:#fff; text-transform:uppercase; }
+    h1 { font-size:clamp(3rem,6vw,5.5rem); } h2 { font-size:clamp(2.2rem,3.5vw,3.5rem); }
+    .label { color:var(--accent); text-transform:uppercase; font-weight:600; letter-spacing:.2em; font-size:.75rem; margin-bottom:1rem; display:block; }
+    p { font-size:1.1rem; line-height:1.6; color:var(--text-muted); font-weight:300; }
+    @media(max-width:900px) { section { justify-content:center!important; text-align:center; } .text-card { width:100%; padding:2rem; background:rgba(12,15,12,.85); border:none!important; border-top:2px solid var(--accent)!important; } nav { padding:1.5rem; } }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-  <style>
-    :root { --bg-dark:#070907; --text-main:#f5f7f5; --text-muted:#8a948d; --accent:#d4af37; }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    body,html { width:100%; font-family:'Inter',sans-serif; background-color:var(--bg-dark); color:var(--text-main); overflow-x:hidden; }
-    body::before { content:""; position:fixed; top:0; left:0; width:100vw; height:100vh; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"); pointer-events:none; z-index:-1; }
-    nav { position:fixed; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:2rem 6vw; z-index:100; background:linear-gradient(to bottom,rgba(7,9,7,.95),transparent); }
-    .logo { font-family:'Playfair Display',serif; font-weight:700; letter-spacing:.05em; font-size:1.4rem; text-transform:uppercase; }
-    main { width:100%; max-width:1400px; margin:0 auto; padding-top:10vh; perspective:1000px; }
-    .stage { min-height:90vh; display:flex; align-items:center; justify-content:space-between; gap:6vw; padding:4rem 6vw; opacity:0; transform:translateY(40px); }
-    .stage:nth-child(even) { flex-direction:row-reverse; }
-    .hero-stage { min-height:80vh; flex-direction:column!important; justify-content:center; text-align:center; }
-    .content-side { flex:1; background:rgba(12,16,13,.65); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-top:2px solid var(--accent); padding:3.5rem; border-radius:4px; box-shadow:0 30px 60px rgba(0,0,0,.5); }
-    .hero-stage .content-side { background:transparent; border:none; box-shadow:none; backdrop-filter:none; }
-    h1,h2 { font-family:'Playfair Display',serif; font-weight:700; line-height:1.1; margin-bottom:1.2rem; color:#fff; text-transform:uppercase; }
-    h1 { font-size:clamp(3.5rem,6vw,6rem); } h2 { font-size:clamp(2.2rem,3.5vw,3.5rem); }
-    .label { color:var(--accent); text-transform:uppercase; font-weight:600; letter-spacing:.2em; font-size:.75rem; margin-bottom:1.2rem; display:block; }
-    p { font-size:1.1rem; line-height:1.6; color:var(--text-muted); font-weight:300; }
-    .visual-side { flex:1.2; width:100%; aspect-ratio:16/10; border-radius:4px; overflow:hidden; box-shadow:0 40px 80px rgba(0,0,0,.6); transition:transform .1s ease-out; transform-style:preserve-3d; position:relative; }
-    .visual-side img { width:100%; height:100%; object-fit:cover; display:block; }
-    @media(max-width:900px) { .stage,.stage:nth-child(even) { flex-direction:column-reverse; text-align:left; gap:2rem; padding:4rem 1.5rem; } .visual-side { aspect-ratio:16/9; } .content-side { padding:2rem; } }
-  </style>
 </head>
 <body>
-  <nav><div class="logo">Saccharum</div></nav>
+  <div id="loader"><div class="loader-text">Loading Gallery</div><div class="progress-bar-container"><div id="progress-bar"></div></div></div>
+  <nav><div class="logo">Saccharum</div><div class="nav-links">The Farming Process</div></nav>
+  <div id="webgl-container"></div>
   <main>
-    <section class="stage hero-stage"><div class="content-side"><span class="label" style="text-align:center;">Agriculture</span><h1 style="text-align:center;">THE RAW<br>HARVEST</h1><p style="text-align:center;margin:0 auto;max-width:500px;color:#fff;">Scroll to explore the authentic journey from soil to mill.</p></div></section>
-    <section class="stage"><div class="content-side"><span class="label">Step 01 : Planting</span><h2>THE SOIL</h2><p>Sugarcane isn't grown from traditional seeds. Farmers plant living stalks directly into deep, nutrient-rich furrows. This cloning process ensures the highest-yielding crops are passed down to the next generation.</p></div><div class="visual-side tilt-card"><img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1200&q=80" alt="Farmer hands in soil"></div></section>
-    <section class="stage"><div class="content-side"><span class="label">Step 02 : Cultivation</span><h2>TROPICAL SUN</h2><p>As a perennial grass, sugarcane demands immense equatorial sunlight and heavy rains. It grows aggressively over 14 months, reaching heights of up to 20 feet in dense, impassable green walls.</p></div><div class="visual-side tilt-card"><img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=1200&q=80" alt="Tropical green leaves"></div></section>
-    <section class="stage"><div class="content-side"><span class="label">Step 03 : The Harvest</span><h2>PEAK YIELD</h2><p>Harvesting is triggered the exact moment sucrose levels peak in the plant's base. Hand-sheared with machetes or cut by heavy machinery, timing the harvest is absolute and unforgiving.</p></div><div class="visual-side tilt-card"><img src="https://images.unsplash.com/photo-1595801742459-07b92df09a63?auto=format&fit=crop&w=1200&q=80" alt="Farmer harvesting crops"></div></section>
-    <section class="stage"><div class="content-side"><span class="label">Step 04 : Transport</span><h2>THE RACE</h2><p>Once severed from the earth, the cane begins losing its sweet content immediately. Convoys of tractors race against the clock to deliver the raw harvest to the extraction mill within 24 hours.</p></div><div class="visual-side tilt-card"><img src="https://images.unsplash.com/photo-1592982537447-6f2334edee84?auto=format&fit=crop&w=1200&q=80" alt="Tractor in field"></div></section>
-    <section class="stage"><div class="content-side"><span class="label">Step 05 : Extraction</span><h2>THE MILL</h2><p>Inside the factory, heavy serrated steel rollers crush the stalks to extract the raw green juice. The leftover fiber (bagasse) is thrown into massive boilers to generate steam power for the facility.</p></div><div class="visual-side tilt-card"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80" alt="Industrial factory machinery"></div></section>
-    <section class="stage" style="margin-bottom:10vh;"><div class="content-side"><span class="label">The Result</span><h2>RAW SUGAR</h2><p>The extracted juice is boiled under vacuum, clarified, and spun in powerful centrifuges. It crystallizes into the pure, unrefined raw sugar crystals that fuel the modern world.</p></div><div class="visual-side tilt-card"><img src="https://images.unsplash.com/photo-1622484211148-525916053da0?auto=format&fit=crop&w=1200&q=80" alt="Raw sugar crystals"></div></section>
+    <section class="stage hero"><div class="text-card"><span class="label">Agriculture</span><h1>THE RAW<br>HARVEST</h1><p style="margin:0 auto;color:#fff;text-shadow:0 4px 10px rgba(0,0,0,.8);">Scroll to explore the real journey from soil to mill.</p></div></section>
+    <section class="stage"><div class="text-card"><span class="label">Step 01 : Planting</span><h2>THE SOIL</h2><p>Sugarcane isn't grown from traditional seeds. Farmers plant living stalks directly into deep, nutrient-rich furrows. This cloning process ensures the highest-yielding crops are passed down.</p></div></section>
+    <section class="stage"><div class="text-card"><span class="label">Step 02 : Cultivation</span><h2>TROPICAL SUN</h2><p>As a perennial grass, sugarcane demands immense equatorial sunlight and heavy rains. It grows aggressively over 14 months, reaching heights of up to 20 feet.</p></div></section>
+    <section class="stage"><div class="text-card"><span class="label">Step 03 : The Harvest</span><h2>PEAK YIELD</h2><p>Harvesting is triggered the exact moment sucrose levels peak in the plant's base. Hand-sheared with machetes or cut by heavy machinery, timing is absolute.</p></div></section>
+    <section class="stage"><div class="text-card"><span class="label">Step 04 : Transport</span><h2>THE RACE</h2><p>Once severed from the earth, the cane begins losing its sweet content immediately. Convoys of tractors race against the clock to deliver the raw harvest to the extraction mill within 24 hours.</p></div></section>
+    <section class="stage"><div class="text-card"><span class="label">Step 05 : Extraction</span><h2>THE MILL</h2><p>Inside the factory, heavy serrated steel rollers crush the stalks to extract the raw green juice. The leftover fiber (bagasse) is thrown into massive boilers to generate steam power.</p></div></section>
+    <section class="stage"><div class="text-card"><span class="label">The Result</span><h2>RAW SUGAR</h2><p>The extracted juice is boiled under vacuum, clarified, and spun in powerful centrifuges. It crystallizes into the pure, unrefined raw sugar crystals that fuel the modern world.</p></div></section>
   </main>
   <script>
-    document.addEventListener('DOMContentLoaded',()=>{
+    window.addEventListener('DOMContentLoaded',()=>{
+      const container=document.getElementById('webgl-container');
+      const scene=new THREE.Scene();
+      scene.fog=new THREE.FogExp2(0x050605,.035);
+      const camera=new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,.1,200);
+      camera.position.set(0,0,10);
+      const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
+      renderer.setSize(window.innerWidth,window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+      renderer.toneMapping=THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure=1.1;
+      container.appendChild(renderer.domElement);
+      scene.add(new THREE.AmbientLight(0xffffff,.6));
+      const followLight=new THREE.PointLight(0xffebd6,1.8,40); scene.add(followLight);
+      let pageUnlocked=false;
+      function unlockPage(){if(pageUnlocked)return;pageUnlocked=true;document.getElementById('loader').style.opacity='0';setTimeout(()=>{document.getElementById('loader').style.display='none'},800)}
+      setTimeout(unlockPage,6000);
+      const manager=new THREE.LoadingManager();
+      manager.onProgress=(url,loaded,total)=>{document.getElementById('progress-bar').style.width=(loaded/total*100)+'%'};
+      manager.onLoad=unlockPage;
+      const textureLoader=new THREE.TextureLoader(manager); textureLoader.setCrossOrigin('anonymous');
+      const imageUrls=[
+        'https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1590274706596-a83cbce0dcfa?w=1000',
+        'https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1000',
+        'https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=1000',
+        'https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1505589146162-8509c158525b?w=1000',
+        'https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1592982537447-6f2334edee84?w=1000',
+        'https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1000',
+        'https://res.cloudinary.com/demo/image/fetch/https://images.unsplash.com/photo-1622484211148-525916053da0?w=1000'
+      ];
+      const planes=[]; const zSpacing=25;
+      function getPerfectXOffset(index){
+        if(window.innerWidth<=900)return 0;
+        const vFOV=THREE.MathUtils.degToRad(camera.fov);
+        const visibleHeight=2*Math.tan(vFOV/2)*10;
+        const visibleWidth=visibleHeight*camera.aspect;
+        const offset=visibleWidth*.25;
+        return index%2!==0?-offset:offset;
+      }
+      function buildPlane(texture,i){
+        const geometry=new THREE.PlaneGeometry(6.4,3.6);
+        const material=new THREE.MeshStandardMaterial({map:texture,roughness:.6,metalness:.2});
+        const mesh=new THREE.Mesh(geometry,material);
+        const xOffset=i===0?0:getPerfectXOffset(i);
+        mesh.userData.originalX=xOffset; mesh.userData.originalY=0;
+        mesh.position.set(xOffset,0,-(i*zSpacing));
+        if(i!==0&&window.innerWidth>900)mesh.rotation.y=i%2!==0?.15:-.15;
+        scene.add(mesh); planes[i]=mesh;
+      }
+      function createFallback(i){const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=675;const ctx=canvas.getContext('2d');ctx.fillStyle='#111511';ctx.fillRect(0,0,canvas.width,canvas.height);return new THREE.CanvasTexture(canvas)}
+      imageUrls.forEach((url,i)=>textureLoader.load(url,tex=>buildPlane(tex,i),undefined,()=>buildPlane(createFallback(i),i)));
+      const particleGeo=new THREE.BufferGeometry(); const posArray=new Float32Array(800*3);
+      for(let i=0;i<800*3;i++){posArray[i]=(Math.random()-.5)*35;if((i+1)%3===0)posArray[i]=(Math.random()*-180)+10}
+      particleGeo.setAttribute('position',new THREE.BufferAttribute(posArray,3));
+      const particleMat=new THREE.PointsMaterial({size:.05,color:0xd4af37,transparent:true,opacity:.5,blending:THREE.AdditiveBlending});
+      const particleMesh=new THREE.Points(particleGeo,particleMat); scene.add(particleMesh);
       gsap.registerPlugin(ScrollTrigger);
-      gsap.utils.toArray('.stage').forEach(stage=>{gsap.to(stage,{opacity:1,y:0,duration:1.2,ease:'power3.out',scrollTrigger:{trigger:stage,start:'top 80%',toggleActions:'play none none reverse'}})});
-      document.querySelectorAll('.tilt-card').forEach(card=>{
-        card.addEventListener('mousemove',e=>{const rect=card.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top,centerX=rect.width/2,centerY=rect.height/2,rotateX=((y-centerY)/centerY)*-8,rotateY=((x-centerX)/centerX)*8;card.style.transform=`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02,1.02,1.02)`});
-        card.addEventListener('mouseleave',()=>{card.style.transform='perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)'});
-      });
+      const totalDepth=(imageUrls.length-1)*zSpacing;
+      gsap.to(camera.position,{z:-totalDepth+10,ease:'none',scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1}});
+      gsap.to(followLight.position,{z:-totalDepth+10,ease:'none',scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1}});
+      document.querySelectorAll('.stage').forEach((sec,i)=>{const card=sec.querySelector('.text-card');if(i===0){gsap.to(card,{opacity:1,duration:1,delay:.5})}else{const startX=i%2!==0?50:-50;gsap.fromTo(card,{opacity:0,x:window.innerWidth>900?startX:0,y:30},{opacity:1,x:0,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:sec,start:'top 65%',end:'top 20%',toggleActions:'play reverse play reverse'}})}});
+      let mouseX=0,mouseY=0;
+      window.addEventListener('mousemove',e=>{mouseX=e.clientX/window.innerWidth*2-1;mouseY=-(e.clientY/window.innerHeight)*2+1});
+      const clock=new THREE.Clock();
+      function render(){requestAnimationFrame(render);const t=clock.getElapsedTime();camera.position.x+=(mouseX*.8-camera.position.x)*.05;camera.position.y+=(mouseY*.5-camera.position.y)*.05;planes.forEach((mesh,index)=>{if(mesh)mesh.position.y=mesh.userData.originalY+Math.sin(t*1.5+index)*.15});particleMesh.rotation.y=t*.02;renderer.render(scene,camera)}
+      render();
+      window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);planes.forEach((mesh,i)=>{if(mesh&&i!==0){mesh.userData.originalX=getPerfectXOffset(i);mesh.position.x=mesh.userData.originalX;mesh.rotation.y=window.innerWidth<=900?0:(i%2!==0?.15:-.15)}})});
     });
   </script>
 </body>
