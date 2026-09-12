@@ -1,33 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saccharum — 2.5D Product Drop</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#f4f3ec;--ink:#121a14;--orange:#f26d21;--green:#2e5935}
-*{box-sizing:border-box;margin:0;padding:0}html,body{width:100%;min-height:100%;overflow-x:hidden;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif}body{overscroll-behavior:none}
-nav{position:fixed;top:0;left:0;right:0;height:88px;padding:0 6vw;display:flex;align-items:center;justify-content:space-between;z-index:20;mix-blend-mode:multiply}.logo{font-family:Syne,sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-.04em;text-transform:uppercase}.nav-link{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:4px}
-main{position:relative;z-index:2}section{height:150vh;min-height:900px;position:relative;display:flex;align-items:center;padding:0 8vw;overflow:hidden}section:first-child{height:130vh}.text{width:45%;max-width:620px;position:relative;z-index:5}.kicker{display:block;color:var(--orange);font-size:.7rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;margin-bottom:1.5rem}h1,h2{font-family:Syne,sans-serif;font-weight:800;letter-spacing:-.055em;line-height:.92}h1{font-size:clamp(4rem,9vw,9rem)}h2{font-size:clamp(3.5rem,7vw,7rem)}p{font-size:clamp(1rem,1.35vw,1.25rem);line-height:1.7;color:#536057;max-width:500px;margin-top:2rem;font-weight:400}
-.hero-image{position:fixed;z-index:4;left:50%;top:50%;height:80vh;width:auto;max-width:58vw;object-fit:contain;transform:translate(-50%,-50%);filter:drop-shadow(0 35px 35px rgba(18,26,20,.2));pointer-events:none;will-change:transform}.section-2 .text{margin-left:auto}.section-2 h2{color:var(--orange);font-size:clamp(4rem,9vw,9rem)}.outline{-webkit-text-stroke:2px var(--ink);color:transparent}.section-3{justify-content:flex-start;align-items:center}.section-3 .text{width:52%;margin-left:48%}.section-3 h2{color:var(--green)}.endmark{font-family:Syne,sans-serif;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;margin-top:3rem}.grid{position:absolute;inset:0;opacity:.28;background-image:linear-gradient(rgba(18,26,20,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(18,26,20,.12) 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(to bottom,transparent,black 20%,black 80%,transparent)}
-@media(max-width:900px){nav{height:72px;padding:0 5vw}.hero-image{height:58vh;max-width:80vw;top:42%}section,section:first-child{height:125vh;min-height:760px;padding:0 7vw;align-items:flex-end;padding-bottom:16vh}.text,.section-2 .text,.section-3 .text{width:100%;max-width:650px;margin:0}.text{background:rgba(244,243,236,.78);backdrop-filter:blur(8px);padding:1.5rem}.hero-image{z-index:3}h1{font-size:clamp(3.4rem,16vw,6rem)}h2{font-size:clamp(3.1rem,15vw,5.5rem)}p{font-size:1rem;margin-top:1.2rem}}
-</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saccharum — Premium Botanical</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #030403;
+      --text-main: #f5f7f5;
+      --text-muted: #8a948d;
+      --accent: #d4af37;
+      --accent-glow: rgba(212, 175, 55, 0.15);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; min-height: 100%; font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
+    body::before { content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
+    #webgl-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; }
+    nav { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 2rem 6vw; z-index: 100; background: linear-gradient(to bottom, rgba(3,4,3,0.9), transparent); }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: 1.3rem; text-transform: uppercase; }
+    .tagline { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.25em; color: var(--accent); font-weight: 600; }
+    main { position: relative; z-index: 10; width: 100%; }
+    section { height: 100vh; width: 100%; display: flex; flex-direction: column; justify-content: center; padding: 0 8vw; position: relative; }
+    .align-center { align-items: center; text-align: center; }
+    .align-left { align-items: flex-start; }
+    .align-right { align-items: flex-end; }
+    .text-card { background: rgba(15, 20, 15, 0.75); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.05); border-top: 1px solid rgba(255, 255, 255, 0.15); border-left: 2px solid var(--accent); padding: 3.5rem; width: 100%; max-width: 500px; box-shadow: 0 40px 80px rgba(0,0,0,0.9), 0 0 40px var(--accent-glow); opacity: 0; transform: translateY(50px); }
+    .align-right .text-card { border-left: 1px solid rgba(255, 255, 255, 0.05); border-right: 2px solid var(--accent); }
+    .align-center .text-card { background: transparent; border: none; box-shadow: none; backdrop-filter: none; }
+    h1, h2 { font-family: 'Syne', sans-serif; font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.2rem; color: #fff; }
+    h1 { font-size: clamp(3.5rem, 7vw, 7rem); }
+    h2 { font-size: clamp(2.2rem, 4vw, 4rem); }
+    .label { color: var(--accent); text-transform: uppercase; font-weight: 600; letter-spacing: 0.25em; font-size: 0.72rem; margin-bottom: 1.2rem; display: block; }
+    p { font-size: 1.05rem; line-height: 1.7; color: var(--text-muted); font-weight: 300; }
+    @media (max-width: 900px) { .text-card { padding: 2rem; max-width: 100%; } .align-left, .align-right { align-items: center; text-align: center; } nav { padding: 1.5rem; } }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
-<nav><div class="logo">Saccharum</div><a class="nav-link" href="#result">Pre-Order</a></nav>
-<div class="hero-image-wrap"><img class="hero-image" src="sugarcane.png" alt="Sugarcane stalk"></div>
-<main>
-<section class="section-1"><div class="grid"></div><div class="text"><span class="kicker">01 / The real source</span><h1>GROWN<br>WITH<br>INTENT.</h1><p>Before sugar becomes a crystal, it begins as a living stalk built to store energy. Follow the crop from field to final product.</p></div></section>
-<section class="section-2"><div class="grid"></div><div class="text"><span class="kicker">02 / Raw power</span><h2>RAW<br><span class="outline">POWER.</span></h2><p>The harvested cane is crushed to release its juice. Fibrous bagasse remains behind and can be reused as a source of process energy.</p></div></section>
-<section id="result" class="section-3"><div class="grid"></div><div class="text"><span class="kicker">03 / The final drop</span><h2>PURE<br>SUCROSE.</h2><p>Clarification, evaporation and crystallisation transform concentrated cane juice into the familiar sugar crystals.</p><div class="endmark">From cane to crystal / Flip Class 2026</div></div></section>
-</main>
-<script>
-window.addEventListener('load',()=>{gsap.registerPlugin(ScrollTrigger);const img=document.querySelector('.hero-image');gsap.set(img,{xPercent:-50,yPercent:-50});const tl=gsap.timeline({scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1}});tl.to(img,{scale:1.15,rotation:8,duration:1}).to(img,{scale:2.5,rotation:90,y:'20vh',duration:1}).to(img,{scale:.8,rotation:-15,y:'40vh',duration:1});gsap.utils.toArray('.text').forEach(el=>gsap.fromTo(el,{opacity:0,y:55},{opacity:1,y:0,duration:.8,ease:'power2.out',scrollTrigger:{trigger:el.closest('section'),start:'top 72%',end:'top 35%',scrub:.6}}));window.addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth-.5)*12,y=(e.clientY/innerHeight-.5)*8;gsap.to(img,{x:x-50,y:y-50,duration:1.2,ease:'power3.out',overwrite:'auto'})});window.addEventListener('resize',()=>ScrollTrigger.refresh())});
-</script>
+  <nav>
+    <div class="logo">Saccharum</div>
+    <div class="tagline">Botanical Inspector</div>
+  </nav>
+  <div id="webgl-container"></div>
+  <main>
+    <section class="align-center section-panel">
+      <div class="text-card">
+        <span class="label">Saccharum Officinarum</span>
+        <h1>NATURE'S<br>SYNTHESIS</h1>
+        <p style="margin: 0 auto; max-width: 440px;">Scroll to deconstruct the vascular anatomy of concentrated sucrose.</p>
+      </div>
+    </section>
+    <section class="align-right section-panel">
+      <div class="text-card">
+        <span class="label">01 — The Growth Ring</span>
+        <h2>VASCULAR<br>NODES</h2>
+        <p>Thickened structural rings interlock every segment. These nodes anchor auxiliary buds that allow the plant to clone and propagate without seeds.</p>
+      </div>
+    </section>
+    <section class="align-left section-panel">
+      <div class="text-card">
+        <span class="label">02 — Internode Core</span>
+        <h2>PARENCHYMA<br>TISSUE</h2>
+        <p>Inside the fibrous rind lies soft spongy tissue that stores concentrated sweet fluid—fueling rapid vertical growth under high tropical humidity.</p>
+      </div>
+    </section>
+    <section class="align-right section-panel">
+      <div class="text-card">
+        <span class="label">03 — Solar Canopy</span>
+        <h2>PHOTOSYNTHESIS<br>ENGINE</h2>
+        <p>Long, serrated leaves channel equatorial sunlight directly down the vascular bundles, driving massive enzymatic sugar synthesis.</p>
+      </div>
+    </section>
+    <section class="align-left section-panel">
+      <div class="text-card">
+        <span class="label">04 — Harvest Shearing</span>
+        <h2>TRANS-SECTION<br>CUT</h2>
+        <p>Clean base cuts sever the stalk at peak sucrose saturation, preventing enzymatic degradation prior to immediate industrial milling.</p>
+      </div>
+    </section>
+    <section class="align-right section-panel">
+      <div class="text-card">
+        <span class="label">05 — Pressure Milling</span>
+        <h2>BAGASSE<br>EXTRACTION</h2>
+        <p>Heavy mechanical compression separates cellular sap from the lignified fibers, repurposing the dry biomass to fuel the factory boilers.</p>
+      </div>
+    </section>
+    <section class="align-left section-panel">
+      <div class="text-card" style="background: rgba(15, 20, 15, 0.85); border: none; border-left: 2px solid var(--accent); border-top: 1px solid rgba(255,255,255,0.15);">
+        <span class="label">06 — Nucleation</span>
+        <h2>PURE SUCROSE</h2>
+        <p>Under precise vacuum evaporation, concentrated liquor precipitates into crystalline geometry—the purest essence of equatorial agriculture.</p>
+      </div>
+    </section>
+  </main>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('webgl-container');
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x030403, 0.035);
+      const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.set(0, 0, 14);
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.3;
+      container.appendChild(renderer.domElement);
+
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+      scene.add(ambientLight);
+      const keyLight = new THREE.SpotLight(0xfff3db, 3.5);
+      keyLight.position.set(8, 12, 8);
+      keyLight.angle = Math.PI / 5;
+      keyLight.penumbra = 0.5;
+      scene.add(keyLight);
+      const rimLight = new THREE.DirectionalLight(0xd4af37, 3.5);
+      rimLight.position.set(-8, -2, -6);
+      scene.add(rimLight);
+      const fillLight = new THREE.DirectionalLight(0x4a7c2a, 1.5);
+      fillLight.position.set(6, -6, 2);
+      scene.add(fillLight);
+
+      function createNoiseTexture() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 512; canvas.height = 512;
+        const ctx = canvas.getContext('2d');
+        for (let x = 0; x < 512; x++) {
+          for (let y = 0; y < 512; y++) {
+            const val = Math.floor(Math.random() * 255);
+            ctx.fillStyle = `rgb(${val},${val},${val})`;
+            ctx.fillRect(x, y, 2, 10);
+          }
+        }
+        const tex = new THREE.CanvasTexture(canvas);
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.RepeatWrapping;
+        tex.repeat.set(2, 4);
+        return tex;
+      }
+      const organicBumpMap = createNoiseTexture();
+
+      const stalkMaterial = new THREE.MeshPhysicalMaterial({ color: 0x477028, roughness: 0.4, metalness: 0.05, clearcoat: 0.8, clearcoatRoughness: 0.2, bumpMap: organicBumpMap, bumpScale: 0.002 });
+      const nodeMaterial = new THREE.MeshStandardMaterial({ color: 0x9c8b65, roughness: 0.9, bumpMap: organicBumpMap, bumpScale: 0.005 });
+      const coreMaterial = new THREE.MeshStandardMaterial({ color: 0xe3d9bc, roughness: 1.0 });
+      const crystalMaterial = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 1.0, opacity: 1, metalness: 0.1, roughness: 0.05, ior: 1.6, thickness: 3.0, clearcoat: 1.0 });
+
+      const heroGroup = new THREE.Group();
+      scene.add(heroGroup);
+      const numSegments = 6;
+      const segLength = 2.4;
+      const totalHeight = numSegments * segLength;
+      const vertex = new THREE.Vector3();
+
+      for (let i = 0; i < numSegments; i++) {
+        const t = i / numSegments;
+        const radiusBottom = 0.45 - t * 0.1;
+        const radiusTop = 0.4 - t * 0.1;
+        const segGeo = new THREE.CylinderGeometry(radiusTop, radiusBottom, segLength, 64, 16);
+        const posAttribute = segGeo.attributes.position;
+        for (let v = 0; v < posAttribute.count; v++) {
+          vertex.fromBufferAttribute(posAttribute, v);
+          const noise = Math.sin(vertex.y * 5) * 0.015 + Math.cos(vertex.x * 8) * 0.01;
+          vertex.x += vertex.x * noise;
+          vertex.z += vertex.z * noise;
+          posAttribute.setXYZ(v, vertex.x, vertex.y, vertex.z);
+        }
+        segGeo.computeVertexNormals();
+        const segment = new THREE.Mesh(segGeo, stalkMaterial);
+        segment.position.y = (i * segLength) - (totalHeight / 2) + (segLength / 2);
+        heroGroup.add(segment);
+
+        const ringGeo = new THREE.TorusGeometry(radiusBottom * 1.05, 0.06, 32, 64);
+        const ringPos = ringGeo.attributes.position;
+        for (let v = 0; v < ringPos.count; v++) {
+          vertex.fromBufferAttribute(ringPos, v);
+          const noise = Math.sin(vertex.x * 10) * 0.01;
+          vertex.z += noise;
+          ringPos.setXYZ(v, vertex.x, vertex.y, vertex.z);
+        }
+        ringGeo.computeVertexNormals();
+        const ring = new THREE.Mesh(ringGeo, nodeMaterial);
+        ring.rotation.x = Math.PI / 2;
+        ring.position.y = segment.position.y - (segLength / 2);
+        heroGroup.add(ring);
+      }
+
+      const capGeo = new THREE.CircleGeometry(0.35, 64);
+      const topCap = new THREE.Mesh(capGeo, coreMaterial);
+      topCap.rotation.x = -Math.PI / 2;
+      topCap.position.y = totalHeight / 2 - (segLength / 2) + 1.2;
+      heroGroup.add(topCap);
+
+      const crystalSwarm = new THREE.Group();
+      for (let i = 0; i < 25; i++) {
+        const cGeo = new THREE.OctahedronGeometry(Math.random() * 0.4 + 0.2, 0);
+        const crystal = new THREE.Mesh(cGeo, crystalMaterial);
+        crystal.position.set((Math.random() - 0.5) * 5, (Math.random() - 0.5) * 6, (Math.random() - 0.5) * 5);
+        crystal.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+        crystalSwarm.add(crystal);
+      }
+      crystalSwarm.scale.set(0.001, 0.001, 0.001);
+      heroGroup.add(crystalSwarm);
+
+      gsap.registerPlugin(ScrollTrigger);
+      const isMobile = window.innerWidth <= 900;
+      const shiftX = isMobile ? 0 : 4.8;
+      const timeline = gsap.timeline({ scrollTrigger: { trigger: "main", start: "top top", end: "bottom bottom", scrub: 1.5 } });
+
+      heroGroup.position.set(2, -1, 0);
+      heroGroup.rotation.set(0.1, 0, -0.2);
+
+      timeline.to(heroGroup.position, { x: -shiftX, y: 1.5, z: 2, duration: 1, ease: "sine.inOut" }, 0)
+              .to(heroGroup.rotation, { x: 0.4, y: Math.PI * 0.8, z: 0.3, duration: 1, ease: "sine.inOut" }, 0);
+      timeline.to(heroGroup.position, { x: shiftX, y: -0.5, z: 3, duration: 1, ease: "sine.inOut" }, 1)
+              .to(heroGroup.rotation, { x: -0.2, y: Math.PI * 1.6, z: -0.2, duration: 1, ease: "sine.inOut" }, 1);
+      timeline.to(heroGroup.position, { x: -shiftX, y: -3.5, z: 2, duration: 1, ease: "sine.inOut" }, 2)
+              .to(heroGroup.rotation, { x: 0.5, y: Math.PI * 2.2, z: 0.1, duration: 1, ease: "sine.inOut" }, 2);
+      timeline.to(heroGroup.position, { x: shiftX, y: -2, z: 4, duration: 1, ease: "sine.inOut" }, 3)
+              .to(heroGroup.rotation, { x: 1.3, y: Math.PI * 2.9, z: -0.5, duration: 1, ease: "sine.inOut" }, 3);
+      timeline.to(heroGroup.position, { x: -shiftX, y: 0, z: 2, duration: 1, ease: "sine.inOut" }, 4)
+              .to(heroGroup.rotation, { x: 0.1, y: Math.PI * 3.8, z: 1.5, duration: 1, ease: "sine.inOut" }, 4);
+      timeline.to(heroGroup.position, { x: shiftX, y: 0.5, z: 1, duration: 1, ease: "sine.inOut" }, 5)
+              .to(heroGroup.rotation, { x: 0.2, y: Math.PI * 4.9, z: -0.1, duration: 1, ease: "sine.inOut" }, 5)
+              .to(crystalSwarm.scale, { x: 1, y: 1, z: 1, duration: 0.8, ease: "back.out(1.2)" }, 5.2);
+
+      document.querySelectorAll('.section-panel').forEach((panel) => {
+        const card = panel.querySelector('.text-card');
+        gsap.fromTo(card, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", scrollTrigger: { trigger: panel, start: "top 60%", end: "bottom 40%", toggleActions: "play reverse play reverse" } });
+      });
+
+      let mouseX = 0, mouseY = 0;
+      window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+      });
+      const clock = new THREE.Clock();
+      function animate() {
+        requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+        heroGroup.position.y += Math.sin(t * 1.5) * 0.002;
+        heroGroup.rotation.y += Math.cos(t * 1) * 0.0005;
+        camera.position.x += (mouseX * 0.6 - camera.position.x) * 0.05;
+        camera.position.y += (mouseY * 0.4 - camera.position.y) * 0.05;
+        crystalSwarm.children.forEach((crystal, idx) => {
+          crystal.rotation.x += 0.005;
+          crystal.rotation.y += 0.004;
+          crystal.position.y += Math.sin(t * 2 + idx) * 0.002;
+        });
+        renderer.render(scene, camera);
+      }
+      animate();
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    });
+  </script>
 </body>
 </html>
