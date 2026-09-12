@@ -3,64 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Saccharum — The Cinematic Journey</title>
+  <title>Saccharum — 3D Botanical Journey</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg-dark:#050605;--text-main:#fff;--text-muted:#9ba39e;--accent:#d4af37}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;min-height:100%;font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-main);overflow-x:hidden;overscroll-behavior:none}
+    body::after{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+    #webgl-container{position:fixed;inset:0;width:100vw;height:100vh;z-index:1;pointer-events:none}
+    #loader{position:fixed;inset:0;background:#050605;z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity .8s ease-out}
+    .loader-text{font-family:'Syne',sans-serif;font-size:1.2rem;color:var(--accent);margin-bottom:20px;letter-spacing:.15em;text-transform:uppercase}
+    nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:2rem 6vw;z-index:100;background:linear-gradient(to bottom,rgba(5,6,5,.9),transparent)}
+    .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;text-transform:uppercase;letter-spacing:-.02em}.tagline{font-size:.7rem;text-transform:uppercase;letter-spacing:.25em;color:var(--accent);font-weight:600}
+    main{position:relative;z-index:10;width:100%;pointer-events:none}
+    section{height:120vh;width:100%;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative;pointer-events:auto}
+    .align-center{align-items:center;text-align:center}.align-left{align-items:flex-start}.align-right{align-items:flex-end}
+    .text-card{background:rgba(12,14,12,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.05);border-left:2px solid var(--accent);padding:3rem 3.5rem;width:100%;max-width:460px;box-shadow:0 30px 60px rgba(0,0,0,.7);opacity:0;transform:translateY(50px)}
+    .align-right .text-card{border-left:none;border-right:2px solid var(--accent)}.align-center .text-card{background:transparent;border:none;box-shadow:none;backdrop-filter:none;max-width:600px}
+    h1,h2{font-family:'Syne',sans-serif;font-weight:800;line-height:1.05;letter-spacing:-.03em;margin-bottom:1.2rem;color:#fff}h1{font-size:clamp(3rem,7vw,6.5rem)}h2{font-size:clamp(2.2rem,4vw,3.8rem)}
+    .label{color:var(--accent);text-transform:uppercase;font-weight:600;letter-spacing:.25em;font-size:.72rem;margin-bottom:1.2rem;display:block}p{font-size:1.05rem;line-height:1.7;color:var(--text-muted);font-weight:300}
+    @media(max-width:900px){.text-card{padding:2rem;max-width:100%;background:rgba(12,14,12,.9);border:none!important;border-top:2px solid var(--accent)!important}.align-left,.align-right{align-items:center;text-align:center}nav{padding:1.5rem}}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <style>
-    :root { --bg-dark:#050605; --text-main:#fff; --text-muted:#a3aba6; --accent:#d4af37; }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    body,html { width:100%; font-family:'Inter',sans-serif; background-color:var(--bg-dark); color:var(--text-main); overflow-x:hidden; }
-    nav { position:fixed; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:2rem 6vw; z-index:999; background:linear-gradient(to bottom,rgba(5,6,5,.9),transparent); pointer-events:none; }
-    .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; text-transform:uppercase; letter-spacing:-.02em; }
-    .tagline { font-size:.75rem; text-transform:uppercase; letter-spacing:.25em; color:var(--accent); font-weight:600; }
-    .panel { position:relative; height:100vh; width:100vw; overflow:hidden; display:flex; align-items:center; box-shadow:0 -20px 50px rgba(0,0,0,.8); }
-    .bg-image { position:absolute; top:0; left:0; width:100%; height:100%; background-size:cover; background-position:center; z-index:1; transform:scale(1); }
-    .overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(90deg,rgba(5,6,5,.95) 0%,rgba(5,6,5,.6) 40%,rgba(5,6,5,.2) 100%); z-index:2; }
-    .panel.center-layout .overlay { background:rgba(5,6,5,.6); }
-    .panel.right-layout .overlay { background:linear-gradient(270deg,rgba(5,6,5,.95) 0%,rgba(5,6,5,.6) 40%,rgba(5,6,5,.2) 100%); }
-    .content { position:relative; z-index:3; width:100%; padding:0 8vw; display:flex; }
-    .panel.left-layout .content { justify-content:flex-start; }
-    .panel.right-layout .content { justify-content:flex-end; }
-    .panel.center-layout .content { justify-content:center; text-align:center; }
-    .text-card { max-width:500px; }
-    h1,h2 { font-family:'Syne',sans-serif; font-weight:800; line-height:1.05; letter-spacing:-.03em; margin-bottom:1.5rem; color:#fff; }
-    h1 { font-size:clamp(3.5rem,8vw,7.5rem); } h2 { font-size:clamp(2.5rem,5vw,4.5rem); }
-    .label { color:var(--accent); text-transform:uppercase; font-weight:600; letter-spacing:.25em; font-size:.75rem; margin-bottom:1.2rem; display:block; }
-    p { font-size:1.15rem; line-height:1.7; color:var(--text-muted); font-weight:300; }
-    .scroll-hint { margin-top:3rem; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:#fff; opacity:.5; display:flex; flex-direction:column; align-items:center; gap:1rem; }
-    .scroll-hint .line { width:1px; height:50px; background:linear-gradient(to bottom,#fff,transparent); }
-    @media(max-width:900px) {
-      .overlay,.panel.right-layout .overlay,.panel.left-layout .overlay { background:linear-gradient(to top,rgba(5,6,5,1) 0%,rgba(5,6,5,.8) 50%,rgba(5,6,5,.2) 100%); }
-      .content,.panel.left-layout .content,.panel.right-layout .content { justify-content:center; text-align:center; align-items:flex-end; padding-bottom:10vh; }
-      nav { padding:1.5rem; }
-    }
-  </style>
 </head>
 <body>
-  <nav><div class="logo">Saccharum</div><div class="tagline">The Real Process</div></nav>
+  <div id="loader"><div class="loader-text">Generating Geometry</div></div>
+  <nav><div class="logo">Saccharum</div><div class="tagline">3D Process</div></nav>
+  <div id="webgl-container"></div>
   <main>
-    <section class="panel center-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1590274706596-a83cbce0dcfa?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Agriculture</span><h1>NATURE'S<br>SYNTHESIS</h1><p style="margin:0 auto;">Experience the authentic journey from rich soil to raw crystal.</p><div class="scroll-hint"><span>Scroll Down</span><div class="line"></div></div></div></div></section>
-    <section class="panel left-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Step 01 : Planting</span><h2>THE SOIL</h2><p>Sugarcane isn't grown from traditional seeds. Farmers plant living stalks directly into deep, nutrient-rich furrows. This cloning process ensures the highest-yielding crops are passed down to the next generation.</p></div></div></section>
-    <section class="panel right-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Step 02 : Cultivation</span><h2>TROPICAL SUN</h2><p>As a perennial grass, sugarcane demands immense equatorial sunlight and heavy rains. It grows aggressively over 14 months, reaching heights of up to 20 feet in dense, impassable green canopies.</p></div></div></section>
-    <section class="panel left-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1595801742459-07b92df09a63?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Step 03 : The Harvest</span><h2>PEAK YIELD</h2><p>Harvesting is triggered the exact moment sucrose levels peak in the plant's base. Whether sheared by hand with machetes or cut by heavy machinery, timing the harvest is absolute and unforgiving.</p></div></div></section>
-    <section class="panel right-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1592982537447-6f2334edee84?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Step 04 : Transport</span><h2>THE RACE</h2><p>Once severed from the earth, the cane begins losing its sweet content immediately. Convoys of tractors race against the clock to deliver the raw harvest to the extraction mill within 24 hours.</p></div></div></section>
-    <section class="panel left-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">Step 05 : Extraction</span><h2>THE MILL</h2><p>Inside the factory, heavy serrated steel rollers crush the stalks to extract the raw green juice. The leftover fiber (bagasse) is thrown into massive boilers to generate steam power for the entire facility.</p></div></div></section>
-    <section class="panel center-layout"><div class="bg-image" style="background-image:url('https://images.unsplash.com/photo-1622484211148-525916053da0?auto=format&fit=crop&w=2000&q=80');"></div><div class="overlay"></div><div class="content"><div class="text-card"><span class="label">The Result</span><h2>RAW SUGAR</h2><p style="margin:0 auto;">The extracted juice is boiled under vacuum, clarified, and spun in powerful centrifuges, crystallizing into the pure, unrefined raw sugar that fuels the modern world.</p></div></div></section>
+    <section class="align-center section-panel"><div class="text-card"><span class="label">Saccharum Officinarum</span><h1>NATURE'S<br>SYNTHESIS</h1><p style="margin:0 auto;">Scroll to deconstruct the anatomy and extraction of concentrated sucrose.</p></div></section>
+    <section class="align-left section-panel"><div class="text-card"><span class="label">Step 01 : Planting</span><h2>THE SOIL</h2><p>Sugarcane isn't grown from traditional seeds. Farmers plant living stalks directly into deep furrows. This cloning process ensures the highest-yielding crops are passed down to the next generation.</p></div></section>
+    <section class="align-right section-panel"><div class="text-card"><span class="label">Step 02 : Cultivation</span><h2>TROPICAL SUN</h2><p>Inside the fibrous rind lies soft spongy tissue that stores concentrated sweet fluid—fueling rapid vertical growth under high tropical humidity.</p></div></section>
+    <section class="align-left section-panel"><div class="text-card"><span class="label">Step 03 : The Harvest</span><h2>PEAK YIELD</h2><p>Harvesting is triggered the exact moment sucrose levels peak in the plant's base. Timing the harvest is absolute and unforgiving.</p></div></section>
+    <section class="align-right section-panel"><div class="text-card"><span class="label">Step 04 : Extraction</span><h2>THE MILL</h2><p>Heavy mechanical compression separates cellular sap from the lignified fibers, repurposing the dry biomass to fuel the factory boilers.</p></div></section>
+    <section class="align-center section-panel"><div class="text-card" style="background:rgba(12,14,12,.85);border-top:2px solid var(--accent);max-width:550px;"><span class="label">The Result</span><h2>PURE SUCROSE</h2><p>Under precise vacuum evaporation, concentrated liquor precipitates into crystalline geometry—the purest essence of equatorial agriculture.</p></div></section>
   </main>
   <script>
-    document.addEventListener('DOMContentLoaded',()=>{
-      gsap.registerPlugin(ScrollTrigger);
-      const panels=gsap.utils.toArray('.panel');
-      panels.forEach(panel=>{
-        ScrollTrigger.create({trigger:panel,start:'top top',pin:true,pinSpacing:false});
-        const bgImage=panel.querySelector('.bg-image');
-        gsap.fromTo(bgImage,{scale:1},{scale:1.15,ease:'none',scrollTrigger:{trigger:panel,start:'top bottom',end:'bottom top',scrub:true}});
-        const textCard=panel.querySelector('.text-card');
-        gsap.fromTo(textCard,{opacity:0,y:50},{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:panel,start:'top 60%',toggleActions:'play none none reverse'}});
-      });
+    window.addEventListener('DOMContentLoaded',()=>{
+      const container=document.getElementById('webgl-container');
+      const scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x050605,.04);
+      const camera=new THREE.PerspectiveCamera(38,innerWidth/innerHeight,.1,100);camera.position.set(0,0,12);
+      const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.3;container.appendChild(renderer.domElement);
+      scene.add(new THREE.AmbientLight(0xffffff,.5));
+      const keyLight=new THREE.SpotLight(0xfff3db,4);keyLight.position.set(6,12,8);keyLight.angle=Math.PI/4;keyLight.penumbra=.5;scene.add(keyLight);
+      const rimLight=new THREE.DirectionalLight(0xd4af37,2.5);rimLight.position.set(-8,2,-6);scene.add(rimLight);
+      function createFibrousTexture(){const canvas=document.createElement('canvas');canvas.width=512;canvas.height=512;const ctx=canvas.getContext('2d');ctx.fillStyle='#888';ctx.fillRect(0,0,512,512);for(let i=0;i<2000;i++){const val=Math.floor(Math.random()*255);ctx.fillStyle=`rgba(${val},${val},${val},.3)`;ctx.fillRect(Math.random()*512,Math.random()*512,1,Math.random()*40+10)}const tex=new THREE.CanvasTexture(canvas);tex.wrapS=THREE.RepeatWrapping;tex.wrapT=THREE.RepeatWrapping;tex.repeat.set(3,1);return tex}
+      const fiberBump=createFibrousTexture();
+      const stalkMaterial=new THREE.MeshPhysicalMaterial({color:0x5a8231,roughness:.5,metalness:.1,clearcoat:.6,clearcoatRoughness:.3,bumpMap:fiberBump,bumpScale:.003});
+      const nodeMaterial=new THREE.MeshStandardMaterial({color:0x9c8b65,roughness:.9,bumpMap:fiberBump,bumpScale:.005});
+      const metalMaterial=new THREE.MeshStandardMaterial({color:0x444444,roughness:.3,metalness:.9});
+      const crystalMaterial=new THREE.MeshPhysicalMaterial({color:0xffffff,transmission:1,opacity:1,metalness:.1,roughness:.05,ior:1.55,thickness:2});
+      const masterGroup=new THREE.Group();scene.add(masterGroup);const zSpacing=22;
+      const stalkGroup=new THREE.Group(),numSegments=5,segLength=2.4;
+      for(let i=0;i<numSegments;i++){const rBottom=.45-(i/numSegments)*.08,rTop=.42-(i/numSegments)*.08;const segGeo=new THREE.CylinderGeometry(rTop,rBottom,segLength,32,8);const pos=segGeo.attributes.position,v=new THREE.Vector3();for(let j=0;j<pos.count;j++){v.fromBufferAttribute(pos,j);v.x+=Math.sin(v.y*3)*.015;pos.setXYZ(j,v.x,v.y,v.z)}segGeo.computeVertexNormals();const segment=new THREE.Mesh(segGeo,stalkMaterial);segment.position.y=i*segLength;stalkGroup.add(segment);if(i<numSegments-1){const ring=new THREE.Mesh(new THREE.TorusGeometry(rTop*1.05,.05,16,32),nodeMaterial);ring.rotation.x=Math.PI/2;ring.position.y=segment.position.y+segLength/2;stalkGroup.add(ring)}}
+      stalkGroup.position.y=-(numSegments*segLength)/2;
+      const stage0=stalkGroup.clone();stage0.position.set(0,0,0);masterGroup.add(stage0);
+      const stage1=stalkGroup.clone();stage1.position.set(3.5,-2,-zSpacing);masterGroup.add(stage1);
+      const stage2=stalkGroup.clone();stage2.position.set(-3.5,0,-zSpacing*2);masterGroup.add(stage2);
+      const bundleGroup=new THREE.Group();for(let i=0;i<5;i++){const s=stalkGroup.clone();s.scale.set(.6,.6,.6);s.position.set((Math.random()-.5)*1,0,(Math.random()-.5)*1);s.rotation.set((Math.random()-.5)*.1,0,(Math.random()-.5)*.1);bundleGroup.add(s)}bundleGroup.position.set(3.5,0,-zSpacing*3);masterGroup.add(bundleGroup);
+      const rollerGroup=new THREE.Group(),rGeo=new THREE.CylinderGeometry(1.2,1.2,4,32),r1=new THREE.Mesh(rGeo,metalMaterial),r2=new THREE.Mesh(rGeo,metalMaterial);r1.rotation.x=Math.PI/2;r1.position.y=1.1;r2.rotation.x=Math.PI/2;r2.position.y=-1.1;rollerGroup.add(r1,r2);rollerGroup.position.set(-3.5,0,-zSpacing*4);masterGroup.add(rollerGroup);
+      const crystalSwarm=new THREE.Group();for(let i=0;i<20;i++){const cGeo=new THREE.OctahedronGeometry(Math.random()*.4+.2,0),crystal=new THREE.Mesh(cGeo,crystalMaterial);crystal.position.set((Math.random()-.5)*4,(Math.random()-.5)*4,(Math.random()-.5)*4);crystal.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,0);crystalSwarm.add(crystal)}crystalSwarm.position.set(0,0,-zSpacing*5);masterGroup.add(crystalSwarm);
+      setTimeout(()=>{document.getElementById('loader').style.opacity='0';setTimeout(()=>document.getElementById('loader').style.display='none',800)},500);
+      gsap.registerPlugin(ScrollTrigger);const totalDepth=5*zSpacing;
+      gsap.to(masterGroup.position,{z:totalDepth,ease:'none',scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1}});
+      gsap.utils.toArray('.section-panel').forEach(panel=>{const textCard=panel.querySelector('.text-card');const tl=gsap.timeline({scrollTrigger:{trigger:panel,start:'top 80%',end:'bottom 20%',scrub:.5}});tl.fromTo(textCard,{opacity:0,y:50},{opacity:1,y:0,duration:.25,ease:'power2.out'}).to(textCard,{opacity:1,y:0,duration:.4}).to(textCard,{opacity:0,y:-50,duration:.35,ease:'power2.in'})});
+      let mouseX=0,mouseY=0;window.addEventListener('mousemove',e=>{mouseX=e.clientX/innerWidth*2-1;mouseY=-(e.clientY/innerHeight)*2+1});const clock=new THREE.Clock();
+      function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();camera.position.x+=(mouseX*.5-camera.position.x)*.05;camera.position.y+=(mouseY*.5-camera.position.y)*.05;stage0.rotation.y=t*.2;stage0.rotation.x=.1;stage1.rotation.y=t*.15;stage2.rotation.y=t*.15;bundleGroup.rotation.y=t*.2;rollerGroup.children[0].rotation.y=t*.8;rollerGroup.children[1].rotation.y=-t*.8;rollerGroup.rotation.y=t*.1;crystalSwarm.children.forEach((c,i)=>{c.rotation.x+=.005;c.rotation.y+=.005;c.position.y+=Math.sin(t*2+i)*.002});crystalSwarm.rotation.y=t*.1;renderer.render(scene,camera)}animate();
+      window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
     });
   </script>
 </body>
